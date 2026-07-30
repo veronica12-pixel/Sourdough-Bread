@@ -1909,6 +1909,8 @@
           const key = e.target.getAttribute("data-field-key");
           const field = p.fields.find((f) => f.key === key);
           if (field) field.value = e.target.value;
+          sessionStarted = true;
+          snapshotSession();
 
           if (key === "doughTemp") {
             const tempF = parseFloat(e.target.value);
@@ -1991,7 +1993,7 @@
       const now = Date.now();
       p.completed = true;
       p.completedAt = now;
-      p.showDoneBanner = true;
+      p.showDoneBanner = false;
 
       // Fill in the time boxes with sensible defaults if the person hasn't
       // typed them in already — still editable afterward.
@@ -2079,6 +2081,8 @@
         const idx = parseInt(e.target.getAttribute("data-idx"), 10);
         const field = e.target.getAttribute("data-field");
         items[idx][field] = e.target.value;
+        sessionStarted = true;
+        snapshotSession();
         if (onChange) onChange();
       });
       if (input.getAttribute("data-field") === "qty") {
@@ -2089,6 +2093,7 @@
             const withUnit = trimmed + "g";
             items[idx].qty = withUnit;
             e.target.value = withUnit;
+            snapshotSession();
             if (onChange) onChange();
           }
         });
@@ -2234,8 +2239,8 @@
         <button class="collapse-btn" id="closeFoldsBtn" title="Close" style="width:32px; height:32px; font-size:16px;">&#9650;</button>
       </div>
     `;
-    el("foldsTempInput").addEventListener("input", (e) => { foldsTemp = e.target.value; });
-    el("foldsPHInput").addEventListener("input", (e) => { foldsPH = e.target.value; });
+    el("foldsTempInput").addEventListener("input", (e) => { foldsTemp = e.target.value; sessionStarted = true; snapshotSession(); });
+    el("foldsPHInput").addEventListener("input", (e) => { foldsPH = e.target.value; sessionStarted = true; snapshotSession(); });
     el("foldsDoneBtn").addEventListener("click", () => {
       if (foldsCompleted) {
         // Tapped again — manual uncheck
@@ -2383,6 +2388,71 @@
       <div style="display:flex; align-items:flex-end; justify-content:space-around; gap:6px; overflow-x:auto; padding:0 2px 4px;">
         ${bars}
       </div>
+    </div>`;
+  }
+
+  function extractBulkFermentationPoint(record) {
+    if (!record || !record.phases) return null;
+    const bulk = record.phases.find((p) => p.label === "Bulk Fermentation");
+    if (!bulk || !bulk.elapsedSeconds || bulk.elapsedSeconds <= 0) return null;
+    const tempLine = (bulk.ingredients || []).find((line) => /^Temp:/i.test(line));
+    if (!tempLine) return null;
+    const match = tempLine.match(/Temp:\s*([\d.]+)/i);
+    if (!match) return null;
+    const temp = parseFloat(match[1]);
+    if (isNaN(temp)) return null;
+    return {
+      temp,
+      hours: bulk.elapsedSeconds / 3600,
+      label: record.dateLabel,
+      recipeName: record.recipeName,
+    };
+  }
+
+  function buildBakeComparisonChart(log) {
+    const points = (log || []).map(extractBulkFermentationPoint).filter(Boolean);
+    if (points.length < 2) return "";
+
+    const pad = 30;
+    const w = 320, h = 220;
+    const plotW = w - pad * 2, plotH = h - pad * 2;
+
+    const temps = points.map((p) => p.temp);
+    const hoursArr = points.map((p) => p.hours);
+    let minT = Math.min(...temps), maxT = Math.max(...temps);
+    let minH = Math.min(...hoursArr), maxH = Math.max(...hoursArr);
+    const tPad = Math.max(1, (maxT - minT) * 0.15 || 2);
+    const hPad = Math.max(0.25, (maxH - minH) * 0.15 || 0.5);
+    minT -= tPad; maxT += tPad;
+    minH -= hPad; maxH += hPad;
+
+    const xPos = (t) => pad + ((t - minT) / (maxT - minT || 1)) * plotW;
+    const yPos = (hrs) => pad + plotH - ((hrs - minH) / (maxH - minH || 1)) * plotH;
+
+    const gridLines = [0.25, 0.5, 0.75].map((f) => {
+      const yy = (pad + plotH * (1 - f)).toFixed(1);
+      return `<line x1="${pad}" y1="${yy}" x2="${w - pad}" y2="${yy}" stroke="#E7D9F2" stroke-width="1" />`;
+    }).join("");
+
+    const dots = points.map((p) => {
+      const cx = xPos(p.temp).toFixed(1), cy = yPos(p.hours).toFixed(1);
+      return `<circle cx="${cx}" cy="${cy}" r="5.5" fill="#E091C7" stroke="#fff" stroke-width="1.5"><title>${escapeHtml(p.recipeName)} \u00b7 ${escapeHtml(p.label)}: ${p.temp}\u00b0F, ${p.hours.toFixed(1)}h</title></circle>`;
+    }).join("");
+
+    return `<div style="padding:14px 0; border-bottom:1px solid var(--line);">
+      <p style="margin:0 0 2px; font-weight:700; color:var(--ink);">Bulk fermentation: temp vs. length</p>
+      <p style="margin:0 0 10px; font-size:12px; color:var(--muted);">Each dot is a past bake. Compare dots from the loaves you liked best to spot your sweet spot.</p>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%; max-width:360px; height:auto; display:block; margin:0 auto;">
+        ${gridLines}
+        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h - pad}" stroke="#9E8CB8" stroke-width="1.5" />
+        <line x1="${pad}" y1="${h - pad}" x2="${w - pad}" y2="${h - pad}" stroke="#9E8CB8" stroke-width="1.5" />
+        ${dots}
+        <text x="${pad}" y="${h - 8}" font-size="10" fill="#9E8CB8">${minT.toFixed(0)}&#176;F</text>
+        <text x="${w - pad}" y="${h - 8}" font-size="10" fill="#9E8CB8" text-anchor="end">${maxT.toFixed(0)}&#176;F</text>
+        <text x="${pad - 5}" y="${pad + 4}" font-size="10" fill="#9E8CB8" text-anchor="end">${maxH.toFixed(1)}h</text>
+        <text x="${pad - 5}" y="${h - pad + 3}" font-size="10" fill="#9E8CB8" text-anchor="end">${minH.toFixed(1)}h</text>
+      </svg>
+      <p style="margin:6px 0 0; font-size:11px; color:var(--muted-light);">X: dough temperature (&deg;F) &middot; Y: bulk fermentation length (hours)</p>
     </div>`;
   }
 
@@ -2590,7 +2660,8 @@
       content.innerHTML = `<p style="color:var(--muted); font-size:15px;">No bakes saved yet. Finish a session and tap "Save to Bake Log" to add your first postcard.</p>`;
       return;
     }
-    content.innerHTML = log.map((record) => {
+    const comparisonChartHtml = buildBakeComparisonChart(log);
+    content.innerHTML = comparisonChartHtml + log.map((record) => {
       const photosHtml = (record.photos && record.photos.length > 0)
         ? `<div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;">
             ${record.photos.map((src) => `<img src="${src}" style="width:96px; height:96px; object-fit:cover; border-radius:14px; flex-shrink:0;" />`).join("")}
@@ -3202,9 +3273,9 @@
     });
   }
 
-  // notes change → session save
+  // notes change → session save (on every keystroke, not just blur, so nothing is lost if the device sleeps mid-typing)
   if (el("notes")) {
-    el("notes").addEventListener("change", () => { if (sessionStarted) snapshotSession(); });
+    el("notes").addEventListener("input", () => { sessionStarted = true; snapshotSession(); });
   }
 
 

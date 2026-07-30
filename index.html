@@ -1120,6 +1120,15 @@
     return hourStr || minStr;
   }
 
+  // compact version for badges next to phase names, e.g. "10m" or "2h 10m"
+  function formatDurationCompact(totalSeconds) {
+    const totalMinutes = Math.max(0, Math.round(totalSeconds / 60));
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    if (hours > 0) return hours + "h" + (minutes > 0 ? " " + minutes + "m" : "");
+    return minutes + "m";
+  }
+
   // ---------- shared 24h time-input helpers (start/end time boxes) ----------
   function maskTime24Input(e) {
     let digits = e.target.value.replace(/\D/g, "").slice(0, 4);
@@ -1130,9 +1139,13 @@
   function commitTime24Input(e, applyFn) {
     const raw = e.target.value.trim();
     if (!raw) { applyFn(""); return; }
-    const m = raw.match(/^([01]?\d|2[0-3]):?([0-5]\d)$/);
+    // Hour-only entry (e.g. "10" or "9") with no minutes typed — assume :00
+    const normalized = /^\d{1,2}$/.test(raw) ? raw + ":00" : raw;
+    const m = normalized.match(/^([01]?\d|2[0-3]):?([0-5]\d)$/);
     if (!m) {
-      // not a valid 24h time yet — leave the field for the user to keep typing/fixing
+      alert("\"" + raw + "\" isn't a valid 24-hour time. Please enter a time between 00:00 and 23:59.");
+      e.target.value = "";
+      applyFn("");
       return;
     }
     const hh = String(Math.min(23, parseInt(m[1], 10))).padStart(2, "0");
@@ -1409,10 +1422,17 @@
       let tag = p.completed
         ? `<span class="check" style="color:${color.border};">&#9829;</span>`
         : "";
+      let durationBadge = "";
+      if (p.completed) {
+        let durSec = durationBetweenTimes(p.startTime, p.endTime);
+        if (durSec === null) durSec = parseElapsedSeconds(p) || null;
+        if (durSec) durationBadge = `<span class="serif p-duration" style="font-size:20px; font-weight:700; color:${color.border}; flex-shrink:0;">${formatDurationCompact(durSec)}</span>`;
+      }
       const colorStyle = `style="background:${color.bg}; border-color:${color.border};"`;
       const rowLabel = p.label;
       let rowHtml = `<button class="${rowCls}" data-key="${p.key}" ${colorStyle}>
         <span class="serif ${nameCls}">${rowLabel}</span>
+        ${durationBadge}
         ${tag}
         <span class="collapse-btn${p.open ? "" : " collapsed"}" style="pointer-events:none; width:28px; height:28px; font-size:14px;">&#127838;</span>
       </button>
@@ -1822,10 +1842,10 @@
           }).join("")}
         </div>
       </div>` : ""}
+      ${p.doneNote ? `<p class="phase-sub" style="margin:0;">${p.doneNote}</p>` : ""}
       <div class="btn-row btn-row-compact">
         <button class="pill solid" data-role="done">${p.completed ? "Mark Not Done" : "Mark Done"}</button>
       </div>
-      ${p.doneNote ? `<p class="phase-sub" style="margin:0;">${p.doneNote}</p>` : ""}
       <div data-role="banner"></div>
       ${(!BAKE_SUB_KEYS.includes(p.key) || p.key === "uncoveredBake" || (p.key === "coveredBake" && getFlatBakePreset())) ? `
       <div style="display:flex; justify-content:center; margin:-6px 0 -10px;">
@@ -1851,6 +1871,12 @@
         commitTime24Input(e, (val) => {
           p.startTime = val;
           sessionStarted = true;
+          if (p.key === "bulk" && val) {
+            const levain = phases.find((ph) => ph.key === "levain");
+            if (levain && !levain.endTime) {
+              levain.endTime = val;
+            }
+          }
           render();
           if (sessionStarted) snapshotSession();
         });
@@ -1986,6 +2012,8 @@
           completed: bulkPhaseP.completed,
           completedAt: bulkPhaseP.completedAt,
           doneNote: bulkPhaseP.doneNote,
+          startTime: bulkPhaseP.startTime,
+          endTime: bulkPhaseP.endTime,
         } : null,
       };
 
@@ -2022,10 +2050,20 @@
       if (p.key === "bulkRise" && bulkPhaseP && !bulkPhaseP.completed) {
         bulkPhaseP.completed = true;
         bulkPhaseP.completedAt = now;
-        const bulkPrevAt = previousCompletionTimestamp(bulkPhaseP);
-        bulkPhaseP.doneNote = bulkPrevAt
-          ? "Done at " + timeStr + " (" + formatDurationWords(Math.round((now - bulkPrevAt) / 1000)) + " since previous step)"
-          : "Done at " + timeStr;
+        if (!bulkPhaseP.endTime) bulkPhaseP.endTime = toTimeInputValue(new Date(now));
+        if (!bulkPhaseP.startTime) {
+          const bulkStartPrevAt = previousCompletionTimestamp(bulkPhaseP);
+          if (bulkStartPrevAt) bulkPhaseP.startTime = toTimeInputValue(new Date(bulkStartPrevAt));
+        }
+        const bulkManualDuration = durationBetweenTimes(bulkPhaseP.startTime, bulkPhaseP.endTime);
+        if (bulkManualDuration !== null) {
+          bulkPhaseP.doneNote = formatDurationWords(bulkManualDuration) + " (" + formatTimeInputDisplay(bulkPhaseP.startTime) + " \u2013 " + formatTimeInputDisplay(bulkPhaseP.endTime) + ")";
+        } else {
+          const bulkPrevAt = previousCompletionTimestamp(bulkPhaseP);
+          bulkPhaseP.doneNote = bulkPrevAt
+            ? "Done at " + timeStr + " (" + formatDurationWords(Math.round((now - bulkPrevAt) / 1000)) + " since previous step)"
+            : "Done at " + timeStr;
+        }
       }
 
       render();
@@ -2041,6 +2079,8 @@
           bulkPhaseP.completed = prev.bulk.completed;
           bulkPhaseP.completedAt = prev.bulk.completedAt;
           bulkPhaseP.doneNote = prev.bulk.doneNote;
+          bulkPhaseP.startTime = prev.bulk.startTime;
+          bulkPhaseP.endTime = prev.bulk.endTime;
         }
       });
     });
@@ -2230,10 +2270,10 @@
           </div>
         </div>
       </div>
+      ${foldsDoneNote ? `<p class="phase-sub" style="margin:0;">${foldsDoneNote}</p>` : ""}
       <div class="btn-row">
         <button class="pill solid" id="foldsDoneBtn">${foldsCompleted ? "Mark Not Done" : "Done"}</button>
       </div>
-      ${foldsDoneNote ? `<p class="phase-sub" style="margin:0;">${foldsDoneNote}</p>` : ""}
       <div id="foldLogSection"></div>
       <div style="display:flex; justify-content:center; margin:-6px 0 -10px;">
         <button class="collapse-btn" id="closeFoldsBtn" title="Close" style="width:32px; height:32px; font-size:16px;">&#9650;</button>

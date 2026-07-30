@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="color-scheme" content="light">
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
 <title>Sourdough Bake Timer</title>
-<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlNvdXJkb3VnaCBCYWtlIFRpbWVyIiwgInNob3J0X25hbWUiOiAiU291cmRvdWdoIiwgImRlc2NyaXB0aW9uIjogIlRpbWVyIGFuZCB0cmFja2VyIGZvciBldmVyeSBwaGFzZSBvZiB5b3VyIHNvdXJkb3VnaCBiYWtlLiIsICJzdGFydF91cmwiOiAiLiIsICJzY29wZSI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGREZCRkUiLCAidGhlbWVfY29sb3IiOiAiI0UwOTFDNyIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQU1BQUFBREFDQUlBQUFEZHZ2dFFBQUFGRkVsRVFWUjRuTzNkc1cwYlFSQ0Y0WlBoSWxTSWUzRGlCaHlxTW9kdXdJbDdjQ0dPRlFsUTRtQ0JBM0dVQWQ2KzJkMDNjLzhYT2JCRTN1N1B1YU5Fa1U5dnIrOGIwT3ZUNmp1QTNBZ0lFZ0tDaElBZ0lTQklDQWdTQW9LRWdDQWhJRWdJQ0JJQ2dvU0FJQ0VnU0FnSWtzK3I3OEIvL2YzeFovVmQ4UEw4OG1YMVhmakFrOC9yZ1NqbWNUNHhyUStJYmhUTFMxb1pFT2tFV2xYU21vQklaNUQ1R2MwT2lIUW1tSm5SdklCSVo3STVHVTM2T1JEMXpEZG56WWRQSU5KWmJ1Z29HanVCcU1mQjBGMFlHQkQxK0JpM0Y2TUNvaDQzZzNaa1NFRFU0Mm5FdnNRSFJEM093bmNuT0NEcThSZTdSNUVCVVU4V2dUc1ZGaEQxNUJLMVh6RUJVVTlHSWJ2R1Mxb2hDUWlJOFpPWHZuZHFRTlNUbmJpRG5NSWdrUUppL05TZzdDTVRDSkwrZ0JnL2xYVHZKaE1Ja3M2QUdELzE5TzBwRXdpU25vQVlQMVYxN0N3VENCSUNndVIwUUp5L2FqdTd2MHdnU0FnSUVnS0NoSUFnT1JjUVY5QlhjR3FYbVVDUUVCQWtCQVFKQVVGQ1FKQVFFQ1FFQkFrQlFVSkFrQkFRSkFRRUNRRkJRa0NRK0g1aTRXUWRiK2ZPYXhPMnl3WVU4dTcvOTkva2drbGRKYUE1SDExenVKVXI5RlE4b0xXZkNMbmZldUdTYWdhMC9KTkVEd3FYVkMwZ3QzUU8ydDJybEZHZGdNelR1VlVwb3dvQkpVcm5WbzJNY2dlVU5KMWIyVE5LSE5DcGVyNysrdG4rOGZ2Yjk2RmYxWGREenk5ZmtqYVVNcUFDZytkZTBsR1U3M2RoSmV2WnBUdTZaQUYxcis5K1F0bFBNWU8rcXUrR2J1VnFLRk5BdVZaV2tlaEkwd1NVYUUxRFpEbmVIQUZsV2MxWUtZNDZRVUFwMW5FUS8yTjNEeWh3QmZYTDJ5WE1HN0lPeUdIdGxqd1JPM0JZaC8reERnaitmQU55ZnRqTlo3c2FwZ0hacnRkQ25tdGlHdEFnU2Eram5Ua0c1UGxRYzJDNE1vNEJ1WEY0SW1hTGdDQWhJRWpzQWhwOW1zOStjbkc3RExJTENMa1EwRU5PdmNDNSswc3lJcUJ6T2s1OFNjK1ZEeUlnU0s0WVVQYnJhQ3RYREFpQkNBZ1N1NEJzLzdMTzVCY2FidXRqRnhCeXVXaEFYRWRIdVdoQWlPSVlrTnRwM29maHlqZ0doRVJNQXpKOHFHMnJuNGg1cm9scFFOdjQ5Y3AxSGUxWnorWWNFRkt3RHNqMllUZVo4enBZQjdSNXI5MGM1aXZnSHRCbXY0SkQrUjk3Z29DMlllczQ1MWxWOTlXNmZ6MWJsb0MySktzWktNdnhwZ2xveTdPbXVrUkgrdlQyK3Y3NC8zWTRNTGUvYXdtWGE1RXpUYURHWVgzSFNYZDBLZCtwdnExeXNWR1VMcDBtM3dUYUpWM3hEK1U5bHBRVGFGZGdGT1ZOcDhrZFVKTTBvK3pwTkJVQ2FoSmxWQ09kcGs1QWpYbEdsZEpwcWdYVTdQdGtVbEs5Ym5ZMUE5cXRMYWx3Tjd2aUFlME9lem1vcHlzVWMzQ1ZnQTd1ZDdvanFRdm1jdStpQWQyamhqNkpmeElOQndRRUNRRkJRa0NRRUJBa0JBUUpBVUZDUUpBUUVDUUVCQWtCUVVKQWtCQVFKQVNFbzFPdmJEa1hrTWtyUk9HRENRUUpBVUZDUUpDY0RvakxvTnJPN2k4VENCSUNncVFuSU01aVZYWHNMQk1JRWdLQ3BETWd6bUwxOU8wcEV3aVMvb0FZUXBWMDd5WVRDQklwSUlaUURjbytNb0VnVVFOaUNHVW43bURBQktLaHZQUzk0eFIyWFNHUC9KaUFHRUtYRlRhQmFDaVhxUDJLUElYUlVCYUJPeFY4RFVSRC9tTDNLUDRpbW9hY2hlL09rR2RoTk9ScHhMNk1laHBQUTI0RzdjakFud1BSa0k5eGUzSHVVNXM3OEE3d2E0MStHQThQcUNHakpTYWNCQ2I5S29QVDJYeHoxbnpTQk5veGlpYVkrWENkSFZCRFJvUE1uL1JyQW1ySUtOQ3FpNFNWQVRWa3BGaCtjYmsrb0IwbFBXNTVOenVqZ0E3bzZaWlBNUWUrQVNFRlh0SUtDUUZCUWtDUUVCQWtCQVFKQVVGQ1FKQVFFQ1FFQkFrQlFVSkFrQkFRSkFRRXlUK1hrc05xY2ttTzN3QUFBQUJKUlU1RXJrSmdnZz09IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FJQUFBQjdHa090QUFBUHpVbEVRVlI0bk8zZHZaRWN5UkdHNFFiampJQWg4SUVLSGFBSXl5RFNBU3IwQVlaQWhvUUlLQlQyWXJHeFdNek9UM2RYWm43UFk4QmQzWFJWdmxNOXVNQ0hIOTkvYmdEaytjZnFCUUN3aGdBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvZjVhdlFCdThPM0wxOVZMZ0hkOC9QeHA5Uks0MW9jZjMzK3VYZ052TU9zWlJoZ0tFb0FTakh2UzZFRUZBckNNb1E5UHhHQVZBVGlidVE4WGlNR1pCT0FNaGo3Y1NnbE9JQUFITXZmaGNVcHdIQUU0aE5FUHUxT0MzUW5BbnN4OU9JRVM3RVVBOW1IMHc4bGs0SEVDOENpakh4YVNnVWNJd0ozTWZhaERCdTRqQURjeitxRW1HYmlWQU56RzlJZmlaT0I2QW5BdG94OGFrWUZyQ01EN2pINW9TZ1l1RTRCTGpIN29UZ011RUlBL012MWhEQmw0a3dDOHdlaUhrV1RnRlg4bjhHdW1QMHpsZEwvaUJ2Q0x6UUVoWEFXZXVBSDh6ZlNISE03N0V3SFlOcnNCOGpqMW0xZEFOZ0dFUzM0ZEZIMERNUDJCNURtUUc0RGtwdzY4RkRzTkVsOEJ4VDVzNElMQWQwRnhBVEQ5Z1F1aU1wRDFDc2owQnk2TG1oSkJBWWg2cnNEZGNtWkZTZ0J5bmlqd3VKQ0pFUkdBa0djSjdDaGhic3dQUU1KVEJJNHdmbm9NRDhENDV3Y2NhdllNbVJ5QTJVOE9PTWZnU1RJMkFJT2ZHWEN5cWZOa1pnQ21QaTFnbFpGVFpXQUFSajRuWUxsNXMyVmFBT1k5SWFDT1lSTm1WQUNHUFJ1Z29FbHpaazRBSmowVmdCUE1DUURBT2NaODNSd1NnREhQQTJoaHhzeVpFSUFaVHdMb1pjRGthUitBQWM4QWFLcjcvR2tmQUFEdTB6c0EzZk1MZE5kNkNqVU9RT3ZQSFJpajd5enFHb0Mrbnpnd1Q5T0oxRFVBQUR5b1pRQ2F4aFlZck9OYzZoZUFqcDh5a0tEZGRPb1hBQUIyMFN3QTdRSUxST2sxb3pvRm9OY25DMlJxTktrNkJRQ0FIYlVKUUtPb0F1RzZ6S3MyQVFCZ1h6MEMwQ1duQUU5YVRLMGVBUUJnZHcwQzBDS2tBSy9VbjEzVkExRC9Fd1JvcW5vQUFQb3EvaFcyZEFDS2YzWUFyWlVPQUVCM2xiL0lDZ0JBcUxvQnFKeE5nT3VWbldaMUF3REFvWW9Hb0d3d0FlNVFjNllWRFFBQVI2c1lnSnFwQkhoRXdjbFdNUUFBbkVBQUFFS1ZDMERCV3hMQUxxck50M0lCQU9BY3RRSlFMWThBK3lvMTVXb0ZBSURUQ0FCQXFFSUJLSFV6QWpoSW5WbFhLQUFBbkVrQUFFSUpBRUNvS2dHbzgxSU00R2hGSmw2VkFBQndNZ0VBQ0ZVaUFFVnVRd0NucVREM1NnUUFnUE1KQUVBb0FRQUl0VDRBRlY2RUFaeHYrZlJiSHdBQWxoQUFnRkFDQUJCS0FBQkNDUUJBcU1VQldQNGpPTUJDYTJlZ0d3QkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQ3NENE0rQUFpeWNoRzRBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUw5dFhvQnNMK1BuejhkOFkvOTl1WHJFZjlZV0VVQWFPbWdFZi9JdjFRZWFFY0FxRzdKckwvRG0rdFVCU29UQUdycE11NnY5UHQvamlSUWh3Q3czckNoZjluTC8xZ3hZQzBCWUlHb2lYL0JxODlCRHppWkFIQVNRLzlkTGdlY1RBQTRscmwvbitmUFRRazRqZ0J3Q0hOL0wwckFjUVNBUFpuN3gxRUNkaWNBN01EY1A1TVNzQmNCNEg3bS9scEt3SU1FZ0p1Wis5VW9BZmNSQUc1ZzlCZjM5SUJrZ0NzSkFGY3graHVSQWE0a0FGeGk3dmZsdlJEdkVnRGVadlNQNFVMQW53Z0FyeG45SThrQXZ4TUFmakg2eDVNQlhoSUF0czNvRHlNRFBQR1h3bVA2aC9MY2NRT0laZ1NFY3hVSUp3Q2hqSDZleVVBc3I0QVNsWnIrLy96dmYxWXY0WmM2aXpsL0phVjJCZWR3QThoUzVKRFhtYk5icGNVc1g0bXJRQm9CQ0xKdytpOGZiUy9WV1V5ZGxiejA4Zk1uRFFqaEZWQ0VqNTgvRmZudS82WlNjN0RPWWhhdXBQaUdZUzhDTUorVHpIM3NuUEVFWUxJNjMrUCs5NjkvcjE3Q0wzVVdVMmNsZjFKbkMzRUVBUmpMdVdVdjl0SlVBakNURTh1KzdLaVJCR0NhcG5mMk9qKzk4aWROdHhZWENNQW96dWN1NnRTb3prcWUyV09UQ01BY3hVOW0vUjg4dVZMeG5jYjFCR0FJWi9JbWRXcFVaeVUzc2Q5bUVJQUpuRWJPWjljTklBRHRqVG1IQmQ5M2M5bVl2UmRMQUhwekFnOVNwMFoxVnZJbU83QTFBV2lzM2RscityNmJ5OXJ0UTU0SlFGZE8zWVBxMUtqT1N1NW1OellsQUMwNWIxUmpUM1lrQVAwTVBtbkYzM2R6MmVDZE9aVUFOT09NbmFaT2plcXM1RjMyWnk4QzBNbUEwelhnZlRlWERkaWxPUVNnRGVkcWQzVnFWR2NsdTdCWHV4QUFnRkFDMEVQT1Y2cEc3N3U1SUdmSHRpWUFEVGhMZEdUZjFpY0ExYzA3UlkzZWQ5ZTVqdFJaeVUzbTdkNWhCQUFnbEFDVTVndlUwZXBjUitxc1pGLzJjR1VDVUplVHd3eDJjbGtDUURsTjMzZERPd0pRbEM5TlJkU3BVWjJWM01GK3Jra0FXR0RxKzI3b1JRQXE4blhwVEhWcVZHY2xSN0NyQ3hLQWNwd1RwckszcXhFQUttcjl2aHU2RUlCYWZFVXFxRTZONnF6a2JuWjRLUUxBR3JQZmQwTUxBZ0NGYWxSbkpTUVFnRUxjamtsZ245Y2hBQlExNEgwM0ZDY0FWZmhhUkE2N3ZRZ0JZSmxHNzd2clhFZnFySVFCQkFBZ2xBQ1U0RWE4WEozclNKMlZITXFlcjBBQXFNdnJEamlVQUFDRUVnQldhdlM2bzg1MXBNNUs2RTRBMXZNeWxFeDIvbklDQUgrcmN4MnBzeEptRXdCSzg3b0RqaU1BQUtFRWdNVWF2ZTZvY3gycHN4SmFFNERGL0E1R012dC9MUUdBWCtwY1IrcXNoTUVFZ09xODdvQ0RDQUJBS0FGZ1BhODdZQWtCZ0J2VWVSOVZaeVgwSlFBQW9RU0FCczc4dGx2bmZWU2RsVENWQUFDRUVnQks4RzBYemljQWNKczZ2NzdXV1FsTkNRQkFLQUdnQjc4RHcrNEVBQ0NVQUN6MjdjdlgxVXVvd3JmZFFQYi9XZ0lBTjZ2ejYydWRsZENSQUFDRUVnRGE4RHN3N0VzQUFFSUp3SHArQjN2bTIyNFVPMzg1QVFBSUpRQndqenAvL0tiT1NtaEhBT2pFc0lNZENVQUpYb1lXVk9jSGlUb3IyWkU5WDRFQVVNdklZUWMxQ1FCQUtBR293bzI0blRvL1NOUlp5WlhzOWlJRWdHYmFEVHNvU3dBSzhiV29tam8vU05SWnllUHM4em9FZ0hJbURUdW9UQUFBUWdsQUxXN0h2ZFQ1UWFMT1NpNnp3MHNSQUlCUUFsQ09yMGp2OGhjRE5HVnZWeU1BRlRrbnpHTlhGeVFBVkRUZzJ5N1VKd0JGK2JyRUpQWnpUUUlBRDZuengyL3FySVF1QktBdVg1b3VNT3dhc1pQTEVvRFNuSndLNnZ3Z1VXY2wxN09IS3hNQWl1bzQ3S0FYQWFqT0Z5ajZzbnVMRTRBR25LTGk2dndnVVdjbG0zM2JnUUQwNEN6OXJ0U3c0eFU3dGdVQmdQZlYrVUdpemtvWVFBRGFDUHhLWmRnMUZiaFhteEtBVHB3cjZyTkxHeEdBWnB5dW11cjhJTEYySmZabkx3TFFqelAyck03WVpiTXpHeEtBbHB5MDg5WDVRYUxPU2w2eUp6c1NnSzVDemx2TlljY3JJYnR4SGdGb3pLbWpBdnV3THdIb3pkbGpMVHV3TlFGb0wvd0UxdmtkT0hBbDRYdHZBQUdZd0Rua2ZIYmRBQUl3eE9EVFdPZDNZQ3Q1Tm5pL1JmbHI5UUxZemJjdlh6OSsvclI2RldkWVB2NmVaYTdFOUI5REFFWVozSURNVVh2WmtwV1kvcE44K1BIOTU2cC90NTEwbktrWllDRUg5amlyRHF6ZkFHWnlWdG1YSFRXU0FJemx4TElYZTJrcXZ3Rk05blJ1dlE3aWJrYi9iRzRBOHpuRDNNZk9HYzhOSUlLckFEY3gra080QVFSeHFybUdmWkxERFNDTHF3QVhHUDFwM0FBU09lZjh6cTRJNUFZUXlsV0FaMFovTEFHSUpnUGhqUDV3WGdGaENvVHkzSEVEWU50Y0JjSVkvVHdSQUg2UmdmR01mbDRTQUY2VGdaR01mbjRuQUx4TkJzWXcrdmtUQWVDUzU5bWhCTzJZKzd4TEFMaUtDMEVqUmo5WEVnQnVJQVBGR2YzY1JBQzRtZmRDMVpqNzNFY0F1SjhTckdYdTh5QUJZQWRLY0Naem43MElBSHRTZ3VPWSsreE9BRGlFRXV6RjNPYzRBc0N4bE9BKzVqNG5FQUJPOG5LaWljR2JESDFPSmdBczhHclN4ZmJBeEdjdEFXQzlxTXVCb1U4ZEFrQXR2OC9IMWtrdzdxbE1BS2p1elJsYXNBcG1QZTBJQUMxZG5yWUg1Y0dJWnhnQllDQ1RHcTdoTDRVSENDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUdwbEFENSsvclR3M3c1UXdjSko2QVlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvUVFBSUpRQUFJUmFIQUQvS3dDUWJPME1kQU1BQ0NVQUFLRUVBQ0NVQUFDRVdoOEF2d01EbVpaUHYvVUJBR0FKQVFBSUpRQUFvVW9FWVBtTE1JQ1RWWmg3SlFJQXdQa0VBQ0NVQUFDRXFoS0FDcS9EQU01UlpPSlZDUUFBSnhNQWdGQ0ZBbERrVGdSd3FEcXpybEFBQURpVEFBQ0VxaFdBT2pjamdDT1VtbksxQWdEQWFRUUFJRlM1QUpTNkh3SHNxTnA4S3hjQUFNNGhBQUJucVBiMWY2c1pnSUlmRThBOEZRTUF3QW1LQnNBbEFKaWs1a3dyR2dBQWpsWTNBRFdEQ1hDcnN0T3NiZ0FBT0ZUcEFKVE5Kc0NWS3MreDBnRUE0RGpWQTFBNW5nQ1hGWjlnMVFNQXdFRWFCS0I0UWdIZVZIOTJOUWdBQUVmb0VZRDZJUVY0cWNYVTZoRUFBSGJYSmdBdGNncXc5WmxYYlFLdzlmbE1nV1NOSmxXbkFBQ3dvMllCYUpSV0lGQ3ZHZFVzQUFCbDlacitXOGNBdFB1SUFXcnFGNEJOQTRCNk9zNmxsZ0VBS0tYajlOLzZCcURweHcxUVI5Y0FiQm9BMU5CM0ZqVU93TmI1Y3dkbWFEMkZlZ2NBWUtIVzAzOGJFSUR1RHdCZ2xmWUIyRFFBV0dIQTVKa1FnRzNFa3dBYW1URnpoZ1JnbS9JOGdQckdUSnM1QVFBNHdaanB2dzBMd0tRSEEzQzBVUUhZTkFBNDByQUpNeTBBMjdnbkJCUXhiN1lNRE1BMjhUa0JhNDJjS2pNRHNBMTlXc0FTVStmSjJBQnNjNThaY0tiQmsyUnlBTGJSVHc0NHdld1pNandBMi9UbkJ4eG4vUFNZSDRBdDRDa0N1MHVZR3hFQjJES2VKYkNYa0ltUkVvQXQ1b2tDRDhxWkZSOStmUCs1ZWcybit2Ymw2K29sQUVYbGpQNG5jUUY0SWdQQUsyblRmNHQ2QmZSUzRKTUdMc2ljQ2FFQjJGS2ZOL0M3MkdrUStncm9tWGRCa0N4MjlEOUpEOEFUR1lCQTRkTi9TMzRGOUpKOUFHbWMrczBONENYM0FFaGc5RDhUZ05ka0FBWXovVjhTZ0Rkb0FNeGo5UDlPQVA1SUJtQU0wLzlOQW5DSkJrQjNSdjhGQXZBK0dZQ21UUC9MQk9CYU1nQ05HUDNYRUlEYnlBQVVaL1JmVHdEdUlRTlFrTkYvS3dHNG53eEFFVWIvZlFUZ1VUSUFDeG45anhDQWZjZ0FuTXpvZjV3QTdFa0c0R2ptL280RTRCQktBTHN6K25jbkFBZVNBWGljdVg4Y0FUaURFc0N0elAwVENNRFp4QUF1TVBmUEpBRExLQUU4TWZSWEVZQVN4SUEwaG40RkFsQ1VKRENNaVYrUUFIU2lDdFJuMERjaUFBQ2gvckY2QVFDc0lRQUFvUVFBSUpRQUFJUVNBSUJRQWdBUVNnQUFRZ2tBUUNnQkFBZ2xBQUNoQkFBZ2xBQUFoQklBZ0ZBQ0FCQktBQUJDQ1FCQUtBRUFDQ1VBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkMvUi9SUXFUSGxQWkpaUUFBQUFCSlJVNUVya0pnZ2c9PSIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
-<meta name="theme-color" content="#E091C7">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Sourdough">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFFElEQVR4nO3dsW0bQRCF4ZPhIlSIe3DiBhyqModuwIl7cCGOFQlQ4mCBA3GUAd6+2d03c/8XObBE3u7PuaNEkU9vr+8b0OvT6juA3AgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIks+r78B//f3xZ/Vd8PL88mX1XfjAk8/rgSjmcT4xrQ+IbhTLS1oZEOkEWlXSmoBIZ5D5Gc0OiHQmmJnRvIBIZ7I5GU36ORD1zDdnzYdPINJZbugoGjuBqMfB0F0YGBD1+Bi3F6MCoh43g3ZkSEDU42nEvsQHRD3OwncnOCDq8Re7R5EBUU8WgTsVFhD15BK1XzEBUU9GIbvGS1ohCQiI8ZOXvndqQNSTnbiDnMIgkQJi/NSg7CMTCJL+gBg/lXTvJhMIks6AGD/19O0pEwiSnoAYP1V17CwTCBICguR0QJy/aju7v0wgSAgIEgKChIAgORcQV9BXcGqXmUCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQ+H5i4WQdb+fOaxO2ywYU8u7/99/kgkldJaA5H11zuJUr9FQ8oLWfCLnfeuGSaga0/JNEDwqXVC0gt3QO2t2rlFGdgMzTuVUpowoBJUrnVo2McgeUNJ1b2TNKHNCper7++tn+8fvb96Ff1XdDzy9fkjaUMqACg+de0lGU73dhJevZpTu6ZAF1r+9+QtlPMYO+qu+GbuVqKFNAuVZWkehI0wSUaE1DZDneHAFlWc1YKY46QUAp1nEQ/2N3DyhwBfXL2yXMG7IOyGHtljwRO3BYh/+xDgj+fANyftjNZ7sapgHZrtdCnmtiGtAgSa+jnTkG5PlQc2C4Mo4BuXF4ImaLgCAhIEjsAhp9ms9+cnG7DLILCLkQ0ENOvcC5+0syIqBzOk58Sc+VDyIgSK4YUPbraCtXDAiBCAgSu4Bs/7LO5BcabutjFxByuWhAXEdHuWhAiOIYkNtp3ofhyjgGhERMAzJ8qG2rn4h5rolpQNv49cp1He1Zz+YcEFKwDsj2YTeZ8zpYB7R5r90c5ivgHtBmv4JD+R97goC2Yes451lV99W6fz1bloC2JKsZKMvxpgloy7OmukRH+vT2+v74/3Y4MLe/awmXa5EzTaDGYX3HSXd0Kd+pvq1ysVGULp0m3wTaJV3xD+U9lpQTaFdgFOVNp8kdUJM0o+zpNBUCahJlVCOdpk5AjXlGldJpqgXU7PtkUlK9bnY1A9qtLalwN7viAe0OezmopysUc3CVgA7ud7ojqQvmcu+iAd2jhj6JfxINBwQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJASEo1OvbDkXkMkrROGDCQQJAUFCQJCcDojLoNrO7i8TCBICgqQnIM5iVXXsLBMIEgKCpDMgzmL19O0pEwiS/oAYQpV07yYTCBIpIIZQDco+MoEgUQNiCGUn7mDABKKhvPS94xR2XSGP/JiAGEKXFTaBaCiXqP2KPIXRUBaBOxV8DURD/mL3KP4imoache/OkGdhNORpxL6MehpPQ24G7cjAnwPRkI9xe3HuU5s78A7wa41+GA8PqCGjJSacBCb9KoPT2Xxz1nzSBNoxiiaY+XCdHVBDRoPMn/RrAmrIKNCqi4SVATVkpFh+cbk+oB0lPW55NzujgA7o6ZZPMQe+ASEFXtIKCQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQEyT+XksNqckmO3wAAAABJRU5ErkJggg==">
-<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFFElEQVR4nO3dsW0bQRCF4ZPhIlSIe3DiBhyqModuwIl7cCGOFQlQ4mCBA3GUAd6+2d03c/8XObBE3u7PuaNEkU9vr+8b0OvT6juA3AgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIks+r78B//f3xZ/Vd8PL88mX1XfjAk8/rgSjmcT4xrQ+IbhTLS1oZEOkEWlXSmoBIZ5D5Gc0OiHQmmJnRvIBIZ7I5GU36ORD1zDdnzYdPINJZbugoGjuBqMfB0F0YGBD1+Bi3F6MCoh43g3ZkSEDU42nEvsQHRD3OwncnOCDq8Re7R5EBUU8WgTsVFhD15BK1XzEBUU9GIbvGS1ohCQiI8ZOXvndqQNSTnbiDnMIgkQJi/NSg7CMTCJL+gBg/lXTvJhMIks6AGD/19O0pEwiSnoAYP1V17CwTCBICguR0QJy/aju7v0wgSAgIEgKChIAgORcQV9BXcGqXmUCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQ+H5i4WQdb+fOaxO2ywYU8u7/99/kgkldJaA5H11zuJUr9FQ8oLWfCLnfeuGSaga0/JNEDwqXVC0gt3QO2t2rlFGdgMzTuVUpowoBJUrnVo2McgeUNJ1b2TNKHNCper7++tn+8fvb96Ff1XdDzy9fkjaUMqACg+de0lGU73dhJevZpTu6ZAF1r+9+QtlPMYO+qu+GbuVqKFNAuVZWkehI0wSUaE1DZDneHAFlWc1YKY46QUAp1nEQ/2N3DyhwBfXL2yXMG7IOyGHtljwRO3BYh/+xDgj+fANyftjNZ7sapgHZrtdCnmtiGtAgSa+jnTkG5PlQc2C4Mo4BuXF4ImaLgCAhIEjsAhp9ms9+cnG7DLILCLkQ0ENOvcC5+0syIqBzOk58Sc+VDyIgSK4YUPbraCtXDAiBCAgSu4Bs/7LO5BcabutjFxByuWhAXEdHuWhAiOIYkNtp3ofhyjgGhERMAzJ8qG2rn4h5rolpQNv49cp1He1Zz+YcEFKwDsj2YTeZ8zpYB7R5r90c5ivgHtBmv4JD+R97goC2Yes451lV99W6fz1bloC2JKsZKMvxpgloy7OmukRH+vT2+v74/3Y4MLe/awmXa5EzTaDGYX3HSXd0Kd+pvq1ysVGULp0m3wTaJV3xD+U9lpQTaFdgFOVNp8kdUJM0o+zpNBUCahJlVCOdpk5AjXlGldJpqgXU7PtkUlK9bnY1A9qtLalwN7viAe0OezmopysUc3CVgA7ud7ojqQvmcu+iAd2jhj6JfxINBwQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJASEo1OvbDkXkMkrROGDCQQJAUFCQJCcDojLoNrO7i8TCBICgqQnIM5iVXXsLBMIEgKCpDMgzmL19O0pEwiS/oAYQpV07yYTCBIpIIZQDco+MoEgUQNiCGUn7mDABKKhvPS94xR2XSGP/JiAGEKXFTaBaCiXqP2KPIXRUBaBOxV8DURD/mL3KP4imoache/OkGdhNORpxL6MehpPQ24G7cjAnwPRkI9xe3HuU5s78A7wa41+GA8PqCGjJSacBCb9KoPT2Xxz1nzSBNoxiiaY+XCdHVBDRoPMn/RrAmrIKNCqi4SVATVkpFh+cbk+oB0lPW55NzujgA7o6ZZPMQe+ASEFXtIKCQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQEyT+XksNqckmO3wAAAABJRU5ErkJggg==">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlNvdXJkb3VnaCBCYWtlIFRpbWVyIiwgInNob3J0X25hbWUiOiAiU291cmRvdWdoIiwgImRlc2NyaXB0aW9uIjogIlRpbWVyIGFuZCB0cmFja2VyIGZvciBldmVyeSBwaGFzZSBvZiB5b3VyIHNvdXJkb3VnaCBiYWtlLiIsICJzdGFydF91cmwiOiAiLiIsICJzY29wZSI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGREZCRkUiLCAidGhlbWVfY29sb3IiOiAiI0UwOTFDNyIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQU1BQUFBREFDQUlBQUFEZHZ2dFFBQUFGRkVsRVFWUjRuTzNkc1cwYlFSQ0Y0WlBoSWxTSWUzRGlCaHlxTW9kdXdJbDdjQ0dPRlFsUTRtQ0JBM0dVQWQ2KzJkMDNjLzhYT2JCRTN1N1B1YU5Fa1U5dnIrOGIwT3ZUNmp1QTNBZ0lFZ0tDaElBZ0lTQklDQWdTQW9LRWdDQWhJRWdJQ0JJQ2dvU0FJQ0VnU0FnSWtzK3I3OEIvL2YzeFovVmQ4UEw4OG1YMVhmakFrOC9yZ1NqbWNUNHhyUStJYmhUTFMxb1pFT2tFV2xYU21vQklaNUQ1R2MwT2lIUW1tSm5SdklCSVo3STVHVTM2T1JEMXpEZG56WWRQSU5KWmJ1Z29HanVCcU1mQjBGMFlHQkQxK0JpM0Y2TUNvaDQzZzNaa1NFRFU0Mm5FdnNRSFJEM093bmNuT0NEcThSZTdSNUVCVVU4V2dUc1ZGaEQxNUJLMVh6RUJVVTlHSWJ2R1Mxb2hDUWlJOFpPWHZuZHFRTlNUbmJpRG5NSWdrUUppL05TZzdDTVRDSkwrZ0JnL2xYVHZKaE1Ja3M2QUdELzE5TzBwRXdpU25vQVlQMVYxN0N3VENCSUNndVIwUUp5L2FqdTd2MHdnU0FnSUVnS0NoSUFnT1JjUVY5QlhjR3FYbVVDUUVCQWtCQVFKQVVGQ1FKQVFFQ1FFQkFrQlFVSkFrQkFRSkFRRUNRRkJRa0NRK0g1aTRXUWRiK2ZPYXhPMnl3WVU4dTcvOTkva2drbGRKYUE1SDExenVKVXI5RlE4b0xXZkNMbmZldUdTYWdhMC9KTkVEd3FYVkMwZ3QzUU8ydDJybEZHZGdNelR1VlVwb3dvQkpVcm5WbzJNY2dlVU5KMWIyVE5LSE5DcGVyNysrdG4rOGZ2Yjk2RmYxWGREenk5ZmtqYVVNcUFDZytkZTBsR1U3M2RoSmV2WnBUdTZaQUYxcis5K1F0bFBNWU8rcXUrR2J1VnFLRk5BdVZaV2tlaEkwd1NVYUUxRFpEbmVIQUZsV2MxWUtZNDZRVUFwMW5FUS8yTjNEeWh3QmZYTDJ5WE1HN0lPeUdIdGxqd1JPM0JZaC8reERnaitmQU55ZnRqTlo3c2FwZ0hacnRkQ25tdGlHdEFnU2Eram5Ua0c1UGxRYzJDNE1vNEJ1WEY0SW1hTGdDQWhJRWpzQWhwOW1zOStjbkc3RExJTENMa1EwRU5PdmNDNSswc3lJcUJ6T2s1OFNjK1ZEeUlnU0s0WVVQYnJhQ3RYREFpQkNBZ1N1NEJzLzdMTzVCY2FidXRqRnhCeXVXaEFYRWRIdVdoQWlPSVlrTnRwM29maHlqZ0doRVJNQXpKOHFHMnJuNGg1cm9scFFOdjQ5Y3AxSGUxWnorWWNFRkt3RHNqMllUZVo4enBZQjdSNXI5MGM1aXZnSHRCbXY0SkQrUjk3Z29DMlllczQ1MWxWOTlXNmZ6MWJsb0MySktzWktNdnhwZ2xveTdPbXVrUkgrdlQyK3Y3NC8zWTRNTGUvYXdtWGE1RXpUYURHWVgzSFNYZDBLZCtwdnExeXNWR1VMcDBtM3dUYUpWM3hEK1U5bHBRVGFGZGdGT1ZOcDhrZFVKTTBvK3pwTkJVQ2FoSmxWQ09kcGs1QWpYbEdsZEpwcWdYVTdQdGtVbEs5Ym5ZMUE5cXRMYWx3Tjd2aUFlME9lem1vcHlzVWMzQ1ZnQTd1ZDdvanFRdm1jdStpQWQyamhqNkpmeElOQndRRUNRRkJRa0NRRUJBa0JBUUpBVUZDUUpBUUVDUUVCQWtCUVVKQWtCQVFKQVNFbzFPdmJEa1hrTWtyUk9HRENRUUpBVUZDUUpDY0RvakxvTnJPN2k4VENCSUNncVFuSU01aVZYWHNMQk1JRWdLQ3BETWd6bUwxOU8wcEV3aVMvb0FZUXBWMDd5WVRDQklwSUlaUURjbytNb0VnVVFOaUNHVW43bURBQktLaHZQUzk0eFIyWFNHUC9KaUFHRUtYRlRhQmFDaVhxUDJLUElYUlVCYUJPeFY4RFVSRC9tTDNLUDRpbW9hY2hlL09rR2RoTk9ScHhMNk1laHBQUTI0RzdjakFud1BSa0k5eGUzSHVVNXM3OEE3d2E0MStHQThQcUNHakpTYWNCQ2I5S29QVDJYeHoxbnpTQk5veGlpYVkrWENkSFZCRFJvUE1uL1JyQW1ySUtOQ3FpNFNWQVRWa3BGaCtjYmsrb0IwbFBXNTVOenVqZ0E3bzZaWlBNUWUrQVNFRlh0SUtDUUZCUWtDUUVCQWtCQVFKQVVGQ1FKQVFFQ1FFQkFrQlFVSkFrQkFRSkFRRXlUK1hrc05xY2ttTzN3QUFBQUJKUlU1RXJrSmdnZz09IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FJQUFBQjdHa090QUFBUHpVbEVRVlI0bk8zZHZaRWN5UkdHNFFiampJQWg4SUVLSGFBSXl5RFNBU3IwQVlaQWhvUUlLQlQyWXJHeFdNek9UM2RYWm43UFk4QmQzWFJWdmxNOXVNQ0hIOTkvYmdEaytjZnFCUUN3aGdBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvZjVhdlFCdThPM0wxOVZMZ0hkOC9QeHA5Uks0MW9jZjMzK3VYZ052TU9zWlJoZ0tFb0FTakh2UzZFRUZBckNNb1E5UHhHQVZBVGlidVE4WGlNR1pCT0FNaGo3Y1NnbE9JQUFITXZmaGNVcHdIQUU0aE5FUHUxT0MzUW5BbnN4OU9JRVM3RVVBOW1IMHc4bGs0SEVDOENpakh4YVNnVWNJd0ozTWZhaERCdTRqQURjeitxRW1HYmlWQU56RzlJZmlaT0I2QW5BdG94OGFrWUZyQ01EN2pINW9TZ1l1RTRCTGpIN29UZ011RUlBL012MWhEQmw0a3dDOHdlaUhrV1RnRlg4bjhHdW1QMHpsZEwvaUJ2Q0x6UUVoWEFXZXVBSDh6ZlNISE03N0V3SFlOcnNCOGpqMW0xZEFOZ0dFUzM0ZEZIMERNUDJCNURtUUc0RGtwdzY4RkRzTkVsOEJ4VDVzNElMQWQwRnhBVEQ5Z1F1aU1wRDFDc2owQnk2TG1oSkJBWWg2cnNEZGNtWkZTZ0J5bmlqd3VKQ0pFUkdBa0djSjdDaGhic3dQUU1KVEJJNHdmbm9NRDhENDV3Y2NhdllNbVJ5QTJVOE9PTWZnU1RJMkFJT2ZHWEN5cWZOa1pnQ21QaTFnbFpGVFpXQUFSajRuWUxsNXMyVmFBT1k5SWFDT1lSTm1WQUNHUFJ1Z29FbHpaazRBSmowVmdCUE1DUURBT2NaODNSd1NnREhQQTJoaHhzeVpFSUFaVHdMb1pjRGthUitBQWM4QWFLcjcvR2tmQUFEdTB6c0EzZk1MZE5kNkNqVU9RT3ZQSFJpajd5enFHb0Mrbnpnd1Q5T0oxRFVBQUR5b1pRQ2F4aFlZck9OYzZoZUFqcDh5a0tEZGRPb1hBQUIyMFN3QTdRSUxST2sxb3pvRm9OY25DMlJxTktrNkJRQ0FIYlVKUUtPb0F1RzZ6S3MyQVFCZ1h6MEMwQ1duQUU5YVRLMGVBUUJnZHcwQzBDS2tBSy9VbjEzVkExRC9Fd1JvcW5vQUFQb3EvaFcyZEFDS2YzWUFyWlVPQUVCM2xiL0lDZ0JBcUxvQnFKeE5nT3VWbldaMUF3REFvWW9Hb0d3d0FlNVFjNllWRFFBQVI2c1lnSnFwQkhoRXdjbFdNUUFBbkVBQUFFS1ZDMERCV3hMQUxxck50M0lCQU9BY3RRSlFMWThBK3lvMTVXb0ZBSURUQ0FCQXFFSUJLSFV6QWpoSW5WbFhLQUFBbkVrQUFFSUpBRUNvS2dHbzgxSU00R2hGSmw2VkFBQndNZ0VBQ0ZVaUFFVnVRd0NucVREM1NnUUFnUE1KQUVBb0FRQUl0VDRBRlY2RUFaeHYrZlJiSHdBQWxoQUFnRkFDQUJCS0FBQkNDUUJBcU1VQldQNGpPTUJDYTJlZ0d3QkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQ3NENE0rQUFpeWNoRzRBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUw5dFhvQnNMK1BuejhkOFkvOTl1WHJFZjlZV0VVQWFPbWdFZi9JdjFRZWFFY0FxRzdKckwvRG0rdFVCU29UQUdycE11NnY5UHQvamlSUWh3Q3czckNoZjluTC8xZ3hZQzBCWUlHb2lYL0JxODlCRHppWkFIQVNRLzlkTGdlY1RBQTRscmwvbitmUFRRazRqZ0J3Q0hOL0wwckFjUVNBUFpuN3gxRUNkaWNBN01EY1A1TVNzQmNCNEg3bS9scEt3SU1FZ0p1Wis5VW9BZmNSQUc1ZzlCZjM5SUJrZ0NzSkFGY3graHVSQWE0a0FGeGk3dmZsdlJEdkVnRGVadlNQNFVMQW53Z0FyeG45SThrQXZ4TUFmakg2eDVNQlhoSUF0czNvRHlNRFBQR1h3bVA2aC9MY2NRT0laZ1NFY3hVSUp3Q2hqSDZleVVBc3I0QVNsWnIrLy96dmYxWXY0WmM2aXpsL0phVjJCZWR3QThoUzVKRFhtYk5icGNVc1g0bXJRQm9CQ0xKdytpOGZiUy9WV1V5ZGxiejA4Zk1uRFFqaEZWQ0VqNTgvRmZudS82WlNjN0RPWWhhdXBQaUdZUzhDTUorVHpIM3NuUEVFWUxJNjMrUCs5NjkvcjE3Q0wzVVdVMmNsZjFKbkMzRUVBUmpMdVdVdjl0SlVBakNURTh1KzdLaVJCR0NhcG5mMk9qKzk4aWROdHhZWENNQW96dWN1NnRTb3prcWUyV09UQ01BY3hVOW0vUjg4dVZMeG5jYjFCR0FJWi9JbWRXcFVaeVUzc2Q5bUVJQUpuRWJPWjljTklBRHRqVG1IQmQ5M2M5bVl2UmRMQUhwekFnOVNwMFoxVnZJbU83QTFBV2lzM2RscityNmJ5OXJ0UTU0SlFGZE8zWVBxMUtqT1N1NW1OellsQUMwNWIxUmpUM1lrQVAwTVBtbkYzM2R6MmVDZE9aVUFOT09NbmFaT2plcXM1RjMyWnk4QzBNbUEwelhnZlRlWERkaWxPUVNnRGVkcWQzVnFWR2NsdTdCWHV4QUFnRkFDMEVQT1Y2cEc3N3U1SUdmSHRpWUFEVGhMZEdUZjFpY0ExYzA3UlkzZWQ5ZTVqdFJaeVUzbTdkNWhCQUFnbEFDVTVndlUwZXBjUitxc1pGLzJjR1VDVUplVHd3eDJjbGtDUURsTjMzZERPd0pRbEM5TlJkU3BVWjJWM01GK3Jra0FXR0RxKzI3b1JRQXE4blhwVEhWcVZHY2xSN0NyQ3hLQWNwd1RwckszcXhFQUttcjl2aHU2RUlCYWZFVXFxRTZONnF6a2JuWjRLUUxBR3JQZmQwTUxBZ0NGYWxSbkpTUVFnRUxjamtsZ245Y2hBQlExNEgwM0ZDY0FWZmhhUkE2N3ZRZ0JZSmxHNzd2clhFZnFySVFCQkFBZ2xBQ1U0RWE4WEozclNKMlZITXFlcjBBQXFNdnJEamlVQUFDRUVnQldhdlM2bzg1MXBNNUs2RTRBMXZNeWxFeDIvbklDQUgrcmN4MnBzeEptRXdCSzg3b0RqaU1BQUtFRWdNVWF2ZTZvY3gycHN4SmFFNERGL0E1R012dC9MUUdBWCtwY1IrcXNoTUVFZ09xODdvQ0RDQUJBS0FGZ1BhODdZQWtCZ0J2VWVSOVZaeVgwSlFBQW9RU0FCczc4dGx2bmZWU2RsVENWQUFDRUVnQks4RzBYemljQWNKczZ2NzdXV1FsTkNRQkFLQUdnQjc4RHcrNEVBQ0NVQUN6MjdjdlgxVXVvd3JmZFFQYi9XZ0lBTjZ2ejYydWRsZENSQUFDRUVnRGE4RHN3N0VzQUFFSUp3SHArQjN2bTIyNFVPMzg1QVFBSUpRQndqenAvL0tiT1NtaEhBT2pFc0lNZENVQUpYb1lXVk9jSGlUb3IyWkU5WDRFQVVNdklZUWMxQ1FCQUtBR293bzI0blRvL1NOUlp5WlhzOWlJRWdHYmFEVHNvU3dBSzhiV29tam8vU05SWnllUHM4em9FZ0hJbURUdW9UQUFBUWdsQUxXN0h2ZFQ1UWFMT1NpNnp3MHNSQUlCUUFsQ09yMGp2OGhjRE5HVnZWeU1BRlRrbnpHTlhGeVFBVkRUZzJ5N1VKd0JGK2JyRUpQWnpUUUlBRDZuengyL3FySVF1QktBdVg1b3VNT3dhc1pQTEVvRFNuSndLNnZ3Z1VXY2wxN09IS3hNQWl1bzQ3S0FYQWFqT0Z5ajZzbnVMRTRBR25LTGk2dndnVVdjbG0zM2JnUUQwNEN6OXJ0U3c0eFU3dGdVQmdQZlYrVUdpemtvWVFBRGFDUHhLWmRnMUZiaFhteEtBVHB3cjZyTkxHeEdBWnB5dW11cjhJTEYySmZabkx3TFFqelAyck03WVpiTXpHeEtBbHB5MDg5WDVRYUxPU2w2eUp6c1NnSzVDemx2TlljY3JJYnR4SGdGb3pLbWpBdnV3THdIb3pkbGpMVHV3TlFGb0wvd0UxdmtkT0hBbDRYdHZBQUdZd0Rua2ZIYmRBQUl3eE9EVFdPZDNZQ3Q1Tm5pL1JmbHI5UUxZemJjdlh6OSsvclI2RldkWVB2NmVaYTdFOUI5REFFWVozSURNVVh2WmtwV1kvcE44K1BIOTU2cC90NTEwbktrWllDRUg5amlyRHF6ZkFHWnlWdG1YSFRXU0FJemx4TElYZTJrcXZ3Rk05blJ1dlE3aWJrYi9iRzRBOHpuRDNNZk9HYzhOSUlLckFEY3gra080QVFSeHFybUdmWkxERFNDTHF3QVhHUDFwM0FBU09lZjh6cTRJNUFZUXlsV0FaMFovTEFHSUpnUGhqUDV3WGdGaENvVHkzSEVEWU50Y0JjSVkvVHdSQUg2UmdmR01mbDRTQUY2VGdaR01mbjRuQUx4TkJzWXcrdmtUQWVDUzU5bWhCTzJZKzd4TEFMaUtDMEVqUmo5WEVnQnVJQVBGR2YzY1JBQzRtZmRDMVpqNzNFY0F1SjhTckdYdTh5QUJZQWRLY0Naem43MElBSHRTZ3VPWSsreE9BRGlFRXV6RjNPYzRBc0N4bE9BKzVqNG5FQUJPOG5LaWljR2JESDFPSmdBczhHclN4ZmJBeEdjdEFXQzlxTXVCb1U4ZEFrQXR2OC9IMWtrdzdxbE1BS2p1elJsYXNBcG1QZTBJQUMxZG5yWUg1Y0dJWnhnQllDQ1RHcTdoTDRVSENDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUdwbEFENSsvclR3M3c1UXdjSko2QVlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvUVFBSUpRQUFJUmFIQUQvS3dDUWJPME1kQU1BQ0NVQUFLRUVBQ0NVQUFDRVdoOEF2d01EbVpaUHYvVUJBR0FKQVFBSUpRQUFvVW9FWVBtTE1JQ1RWWmg3SlFJQXdQa0VBQ0NVQUFDRXFoS0FDcS9EQU01UlpPSlZDUUFBSnhNQWdGQ0ZBbERrVGdSd3FEcXpybEFBQURpVEFBQ0VxaFdBT2pjamdDT1VtbksxQWdEQWFRUUFJRlM1QUpTNkh3SHNxTnA4S3hjQUFNNGhBQUJucVBiMWY2c1pnSUlmRThBOEZRTUF3QW1LQnNBbEFKaWs1a3dyR2dBQWpsWTNBRFdEQ1hDcnN0T3NiZ0FBT0ZUcEFKVE5Kc0NWS3MreDBnRUE0RGpWQTFBNW5nQ1hGWjlnMVFNQXdFRWFCS0I0UWdIZVZIOTJOUWdBQUVmb0VZRDZJUVY0cWNYVTZoRUFBSGJYSmdBdGNncXc5WmxYYlFLdzlmbE1nV1NOSmxXbkFBQ3dvMllCYUpSV0lGQ3ZHZFVzQUFCbDlacitXOGNBdFB1SUFXcnFGNEJOQTRCNk9zNmxsZ0VBS0tYajlOLzZCcURweHcxUVI5Y0FiQm9BMU5CM0ZqVU93TmI1Y3dkbWFEMkZlZ2NBWUtIVzAzOGJFSUR1RHdCZ2xmWUIyRFFBV0dIQTVKa1FnRzNFa3dBYW1URnpoZ1JnbS9JOGdQckdUSnM1QVFBNHdaanB2dzBMd0tRSEEzQzBVUUhZTkFBNDByQUpNeTBBMjdnbkJCUXhiN1lNRE1BMjhUa0JhNDJjS2pNRHNBMTlXc0FTVStmSjJBQnNjNThaY0tiQmsyUnlBTGJSVHc0NHdld1pNandBMi9UbkJ4eG4vUFNZSDRBdDRDa0N1MHVZR3hFQjJES2VKYkNYa0ltUkVvQXQ1b2tDRDhxWkZSOStmUCs1ZWcybit2Ymw2K29sQUVYbGpQNG5jUUY0SWdQQUsyblRmNHQ2QmZSUzRKTUdMc2ljQ2FFQjJGS2ZOL0M3MkdrUStncm9tWGRCa0N4MjlEOUpEOEFUR1lCQTRkTi9TMzRGOUpKOUFHbWMrczBONENYM0FFaGc5RDhUZ05ka0FBWXovVjhTZ0Rkb0FNeGo5UDlPQVA1SUJtQU0wLzlOQW5DSkJrQjNSdjhGQXZBK0dZQ21UUC9MQk9CYU1nQ05HUDNYRUlEYnlBQVVaL1JmVHdEdUlRTlFrTkYvS3dHNG53eEFFVWIvZlFUZ1VUSUFDeG45anhDQWZjZ0FuTXpvZjV3QTdFa0c0R2ptL280RTRCQktBTHN6K25jbkFBZVNBWGljdVg4Y0FUaURFc0N0elAwVENNRFp4QUF1TVBmUEpBRExLQUU4TWZSWEVZQVN4SUEwaG40RkFsQ1VKRENNaVYrUUFIU2lDdFJuMERjaUFBQ2gvckY2QVFDc0lRQUFvUVFBSUpRQUFJUVNBSUJRQWdBUVNnQUFRZ2tBUUNnQkFBZ2xBQUNoQkFBZ2xBQUFoQklBZ0ZBQ0FCQktBQUJDQ1FCQUtBRUFDQ1VBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkMvUi9SUXFUSGxQWkpaUUFBQUFCSlJVNUVya0pnZ2c9PSIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==" />
+<meta name="theme-color" content="#E091C7" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Sourdough" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFFElEQVR4nO3dsW0bQRCF4ZPhIlSIe3DiBhyqModuwIl7cCGOFQlQ4mCBA3GUAd6+2d03c/8XObBE3u7PuaNEkU9vr+8b0OvT6juA3AgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIks+r78B//f3xZ/Vd8PL88mX1XfjAk8/rgSjmcT4xrQ+IbhTLS1oZEOkEWlXSmoBIZ5D5Gc0OiHQmmJnRvIBIZ7I5GU36ORD1zDdnzYdPINJZbugoGjuBqMfB0F0YGBD1+Bi3F6MCoh43g3ZkSEDU42nEvsQHRD3OwncnOCDq8Re7R5EBUU8WgTsVFhD15BK1XzEBUU9GIbvGS1ohCQiI8ZOXvndqQNSTnbiDnMIgkQJi/NSg7CMTCJL+gBg/lXTvJhMIks6AGD/19O0pEwiSnoAYP1V17CwTCBICguR0QJy/aju7v0wgSAgIEgKChIAgORcQV9BXcGqXmUCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQ+H5i4WQdb+fOaxO2ywYU8u7/99/kgkldJaA5H11zuJUr9FQ8oLWfCLnfeuGSaga0/JNEDwqXVC0gt3QO2t2rlFGdgMzTuVUpowoBJUrnVo2McgeUNJ1b2TNKHNCper7++tn+8fvb96Ff1XdDzy9fkjaUMqACg+de0lGU73dhJevZpTu6ZAF1r+9+QtlPMYO+qu+GbuVqKFNAuVZWkehI0wSUaE1DZDneHAFlWc1YKY46QUAp1nEQ/2N3DyhwBfXL2yXMG7IOyGHtljwRO3BYh/+xDgj+fANyftjNZ7sapgHZrtdCnmtiGtAgSa+jnTkG5PlQc2C4Mo4BuXF4ImaLgCAhIEjsAhp9ms9+cnG7DLILCLkQ0ENOvcC5+0syIqBzOk58Sc+VDyIgSK4YUPbraCtXDAiBCAgSu4Bs/7LO5BcabutjFxByuWhAXEdHuWhAiOIYkNtp3ofhyjgGhERMAzJ8qG2rn4h5rolpQNv49cp1He1Zz+YcEFKwDsj2YTeZ8zpYB7R5r90c5ivgHtBmv4JD+R97goC2Yes451lV99W6fz1bloC2JKsZKMvxpgloy7OmukRH+vT2+v74/3Y4MLe/awmXa5EzTaDGYX3HSXd0Kd+pvq1ysVGULp0m3wTaJV3xD+U9lpQTaFdgFOVNp8kdUJM0o+zpNBUCahJlVCOdpk5AjXlGldJpqgXU7PtkUlK9bnY1A9qtLalwN7viAe0OezmopysUc3CVgA7ud7ojqQvmcu+iAd2jhj6JfxINBwQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJASEo1OvbDkXkMkrROGDCQQJAUFCQJCcDojLoNrO7i8TCBICgqQnIM5iVXXsLBMIEgKCpDMgzmL19O0pEwiS/oAYQpV07yYTCBIpIIZQDco+MoEgUQNiCGUn7mDABKKhvPS94xR2XSGP/JiAGEKXFTaBaCiXqP2KPIXRUBaBOxV8DURD/mL3KP4imoache/OkGdhNORpxL6MehpPQ24G7cjAnwPRkI9xe3HuU5s78A7wa41+GA8PqCGjJSacBCb9KoPT2Xxz1nzSBNoxiiaY+XCdHVBDRoPMn/RrAmrIKNCqi4SVATVkpFh+cbk+oB0lPW55NzujgA7o6ZZPMQe+ASEFXtIKCQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQEyT+XksNqckmO3wAAAABJRU5ErkJggg==" />
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFFElEQVR4nO3dsW0bQRCF4ZPhIlSIe3DiBhyqModuwIl7cCGOFQlQ4mCBA3GUAd6+2d03c/8XObBE3u7PuaNEkU9vr+8b0OvT6juA3AgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIks+r78B//f3xZ/Vd8PL88mX1XfjAk8/rgSjmcT4xrQ+IbhTLS1oZEOkEWlXSmoBIZ5D5Gc0OiHQmmJnRvIBIZ7I5GU36ORD1zDdnzYdPINJZbugoGjuBqMfB0F0YGBD1+Bi3F6MCoh43g3ZkSEDU42nEvsQHRD3OwncnOCDq8Re7R5EBUU8WgTsVFhD15BK1XzEBUU9GIbvGS1ohCQiI8ZOXvndqQNSTnbiDnMIgkQJi/NSg7CMTCJL+gBg/lXTvJhMIks6AGD/19O0pEwiSnoAYP1V17CwTCBICguR0QJy/aju7v0wgSAgIEgKChIAgORcQV9BXcGqXmUCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQ+H5i4WQdb+fOaxO2ywYU8u7/99/kgkldJaA5H11zuJUr9FQ8oLWfCLnfeuGSaga0/JNEDwqXVC0gt3QO2t2rlFGdgMzTuVUpowoBJUrnVo2McgeUNJ1b2TNKHNCper7++tn+8fvb96Ff1XdDzy9fkjaUMqACg+de0lGU73dhJevZpTu6ZAF1r+9+QtlPMYO+qu+GbuVqKFNAuVZWkehI0wSUaE1DZDneHAFlWc1YKY46QUAp1nEQ/2N3DyhwBfXL2yXMG7IOyGHtljwRO3BYh/+xDgj+fANyftjNZ7sapgHZrtdCnmtiGtAgSa+jnTkG5PlQc2C4Mo4BuXF4ImaLgCAhIEjsAhp9ms9+cnG7DLILCLkQ0ENOvcC5+0syIqBzOk58Sc+VDyIgSK4YUPbraCtXDAiBCAgSu4Bs/7LO5BcabutjFxByuWhAXEdHuWhAiOIYkNtp3ofhyjgGhERMAzJ8qG2rn4h5rolpQNv49cp1He1Zz+YcEFKwDsj2YTeZ8zpYB7R5r90c5ivgHtBmv4JD+R97goC2Yes451lV99W6fz1bloC2JKsZKMvxpgloy7OmukRH+vT2+v74/3Y4MLe/awmXa5EzTaDGYX3HSXd0Kd+pvq1ysVGULp0m3wTaJV3xD+U9lpQTaFdgFOVNp8kdUJM0o+zpNBUCahJlVCOdpk5AjXlGldJpqgXU7PtkUlK9bnY1A9qtLalwN7viAe0OezmopysUc3CVgA7ud7ojqQvmcu+iAd2jhj6JfxINBwQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJASEo1OvbDkXkMkrROGDCQQJAUFCQJCcDojLoNrO7i8TCBICgqQnIM5iVXXsLBMIEgKCpDMgzmL19O0pEwiS/oAYQpV07yYTCBIpIIZQDco+MoEgUQNiCGUn7mDABKKhvPS94xR2XSGP/JiAGEKXFTaBaCiXqP2KPIXRUBaBOxV8DURD/mL3KP4imoache/OkGdhNORpxL6MehpPQ24G7cjAnwPRkI9xe3HuU5s78A7wa41+GA8PqCGjJSacBCb9KoPT2Xxz1nzSBNoxiiaY+XCdHVBDRoPMn/RrAmrIKNCqi4SVATVkpFh+cbk+oB0lPW55NzujgA7o6ZZPMQe+ASEFXtIKCQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQEyT+XksNqckmO3wAAAABJRU5ErkJggg==" />
 <style>
   :root {
     --cream: #FDFBFE;
@@ -340,11 +341,24 @@
   textarea::placeholder { color: var(--muted-light); }
 
   .end-btn {
-    border-radius: 999px; border: 1px solid var(--danger-line); color: var(--danger);
-    background: transparent; padding: 13px; font-size: 17px; font-weight: 500; cursor: pointer;
-    transition: background-color .15s ease, border-color .15s ease;
+    width: auto; height: auto;
+    margin: 6px auto 0;
+    border: none; color: var(--danger);
+    background: transparent; padding: 8px 18px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    transition: opacity .15s ease;
   }
-  .end-btn:hover { background: rgba(224,129,154,0.08); }
+  .end-btn:hover { opacity: 0.85; }
+  .end-btn .end-btn-icon {
+    font-size: 65px; line-height: 1;
+  }
+  .end-btn .end-btn-label {
+    display: block;
+    white-space: nowrap;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--danger);
+  }
 
   @keyframes pulseGlow {
     0%, 100% { box-shadow: 0 0 0 0 rgba(224,145,199,0.0); }
@@ -624,7 +638,7 @@
   <div class="card" style="position:relative; width:100%; max-width:360px; text-align:center; box-shadow: var(--shadow-lg);">
     <p class="serif" style="margin:0; font-size:28px;">Sourdough Bread</p>
     <p class="subtitle" style="margin:4px 0 0;">Enter password to continue</p>
-    <input type="password" id="lockPasswordInput" inputmode="numeric" placeholder="Password" style="width:100%; box-sizing:border-box; text-align:center; font-size:20px; letter-spacing:4px; border-radius:12px; border:1px solid var(--line-strong); padding:14px; font-family:inherit; color:var(--ink); background:var(--card);">
+    <input type="password" id="lockPasswordInput" inputmode="numeric" placeholder="Password" style="width:100%; box-sizing:border-box; text-align:center; font-size:20px; letter-spacing:4px; border-radius:12px; border:1px solid var(--line-strong); padding:14px; font-family:inherit; color:var(--ink); background:var(--card);" />
     <p id="lockError" style="display:none; color:var(--danger); font-size:14px; margin:0;">Incorrect password, try again.</p>
     <button class="pill solid" id="lockUnlockBtn" style="width:100%; box-sizing:border-box; justify-content:center;">Unlock</button>
   </div>
@@ -634,14 +648,17 @@
 
   <div id="recapOverlay" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.5); backdrop-filter:blur(2px); z-index:200; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
     <div class="card" style="width:100%; max-width:480px; max-height:85vh; overflow-y:auto; box-shadow: var(--shadow-lg);">
-      <h1 class="serif" style="margin:0; font-size:32px;">Bake Recap</h1>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        <h1 class="serif" style="margin:0; font-size:32px;">Bake Recap</h1>
+        <button type="button" class="collapse-btn" id="closeRecapBtn" title="Close" style="width:36px; height:36px; font-size:16px; flex-shrink:0;">&#9650;</button>
+      </div>
 
       <div>
         <p class="ingredients-title" style="margin-bottom:8px;">Photos of your bread</p>
         <div id="recapPhotoGrid" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
         <label class="pill" style="width:100%; box-sizing:border-box; justify-content:center; margin-top:8px; cursor:pointer;">
           Add Photos
-          <input type="file" id="recapPhotoInput" accept="image/*" multiple="" capture="environment" style="display:none;">
+          <input type="file" id="recapPhotoInput" accept="image/*" multiple capture="environment" style="display:none;" />
         </label>
       </div>
 
@@ -657,7 +674,7 @@
     <div class="card" style="width:100%; max-width:480px; max-height:85vh; overflow-y:auto; box-shadow: var(--shadow-lg);">
       <div style="display:flex; align-items:center; justify-content:space-between;">
         <h1 class="serif" style="margin:0; font-size:32px;">Bake Log</h1>
-        <button class="collapse-btn" id="closeBakeLogBtn" style="width:36px; height:36px; font-size:18px;">✕</button>
+        <button class="collapse-btn" id="closeBakeLogBtn" style="width:36px; height:36px; font-size:18px;">&#10005;</button>
       </div>
       <div id="bakeLogContent"></div>
     </div>
@@ -678,110 +695,32 @@
       <div id="recipeQtyRow" style="display:flex; flex-direction:column; flex-wrap:nowrap; align-items:flex-start; gap:8px; margin:4px 0; width:100%; max-width:100%; box-sizing:border-box;">
         <div style="position:relative; flex:0 0 auto; min-width:0; max-width:100%;">
           <button type="button" id="recipeSelectBtn" style="display:inline-flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:10px 14px; font-family:inherit; cursor:pointer; max-width:100%; width:auto; box-sizing:border-box;">
-            <span id="recipeHeart" style="display: inline; font-size: 16px; color: var(--accent); flex-shrink: 0;">♥</span>
-            <span id="recipeSelectLabel" style="white-space:normal; overflow:visible; text-align:left;">Sourdough Bread</span>
-            <span style="font-size:14px; color:var(--accent); flex-shrink:0;">🍞</span>
+            <span id="recipeHeart" style="display:none; font-size:16px; color:var(--accent); flex-shrink:0;">&#9829;</span>
+            <span id="recipeSelectLabel" style="white-space:normal; overflow:visible; text-align:left;">Select Recipe</span>
+            <span style="font-size:14px; color:var(--accent); flex-shrink:0;">&#127838;</span>
           </button>
-          <div id="recipeDropdownPanel" class="card" style="display: none; position: absolute; top: calc(100% + 6px); left: 0px; right: auto; z-index: 60; min-width: 220px; max-width: min(320px, 92vw); padding: 10px; gap: 4px; box-shadow: var(--shadow-lg); flex-direction: column;">
-        <p class="ingredients-title" style="margin:0 0 2px;">Recipes</p>
-        
-        <button type="button" data-pick="Sourdough Bread" style="text-align:left; border:none; background:transparent; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">Sourdough Bread</button>
-      
-        <button type="button" data-pick="Pizza" style="text-align:left; border:none; background:var(--accent-tint); border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">Pizza</button>
-      
-        <button type="button" data-pick="Focaccia" style="text-align:left; border:none; background:transparent; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">Focaccia</button>
-      
-        <button type="button" data-pick="Cioccolatella" style="text-align:left; border:none; background:transparent; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">Cioccolatella</button>
-      
-        
-        <div style="height:1px; background:var(--line); margin:4px 0;"></div>
-        <div style="display:flex; gap:6px;">
-          <input type="text" id="newCustomRecipeInput" placeholder="New custom recipe..." style="flex:1; min-width:0; border:1px solid var(--line-strong); border-radius:10px; padding:8px 10px; font-size:14px; font-family:inherit; color:var(--ink);">
-          <button type="button" id="saveCustomRecipeBtn" class="pill solid" style="padding:8px 14px; font-size:14px;">Save</button>
-        </div>
-      </div>
+          <div id="recipeDropdownPanel" class="card" style="display:none; position:absolute; top:calc(100% + 6px); left:0; right:auto; z-index:60; min-width:220px; max-width:min(320px, 92vw); padding:10px; gap:4px; box-shadow: var(--shadow-lg);"></div>
         </div>
         <div style="display:inline-flex; align-items:center; gap:4px; flex:0 0 auto; background:var(--cyan-bg); border:1px solid var(--cyan); border-radius:999px; padding:8px 8px 8px 12px;">
           <span style="font-size:15px; font-weight:700; color:var(--ink); white-space:nowrap;">Qty</span>
-          <button type="button" id="loafQtyMinusBtn" class="stepper-btn" style="width:28px; height:28px; font-size:16px;">−</button>
+          <button type="button" id="loafQtyMinusBtn" class="stepper-btn" style="width:28px; height:28px; font-size:16px;">&#8722;</button>
           <span id="loafQtyDisplay" class="serif" style="font-size:18px; min-width:18px; text-align:center;">1</span>
-          <button type="button" id="loafQtyPlusBtn" class="stepper-btn" style="width:28px; height:28px; font-size:16px;">+</button>
+          <button type="button" id="loafQtyPlusBtn" class="stepper-btn" style="width:28px; height:28px; font-size:16px;">&#43;</button>
         </div>
       </div>
-      <input class="subtitle" id="recipeNameInput" type="text" value="" placeholder="Select a recipe above" readonly="" style="border:none; background:transparent; padding:0; width:100%; font-family:inherit; outline:none; color:var(--muted); font-size:15px; cursor:default;">
-      <p id="recipeYieldNote" style="display: none; margin: 2px 0px 0px; font-size: 13px; font-weight: 600; color: var(--accent-dark);"></p>
+      <input class="subtitle" id="recipeNameInput" type="text" value="" placeholder="Select a recipe above" readonly style="border:none; background:transparent; padding:0; width:100%; font-family:inherit; outline:none; color:var(--muted); font-size:15px; cursor:default;" />
+      <p id="recipeYieldNote" style="display:none; margin:2px 0 0; font-size:13px; font-weight:600; color:var(--accent-dark);"></p>
       <p class="phase-sub" id="sessionStatus" style="margin:2px 0 0; display:none;">Session in progress</p>
     </div>
 
     <div>
       <p class="section-label">Phases</p>
-      <div class="phase-list" id="phaseList"><button class="phase-row" data-key="levain" style="background:#FFE1E1; border-color:#FFB3B3;">
-        <span class="serif p-name">Levain</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-levain" style="display:none;"></div><button class="phase-row" data-key="autolyse" style="background:#FFE8CC; border-color:#FFC98B;">
-        <span class="serif p-name">Autolyse</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-autolyse" style="display:none;"></div><button class="phase-row" data-key="bulk" style="background:#FFF6C2; border-color:#FFE066;">
-        <span class="serif p-name">Bulk Fermentation</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-bulk" style="display:none;"></div>
-          <button class="phase-row" id="foldsToggleRow" type="button" style="background:#DBF3DC; border-color:#A8E6B0;">
-            <span class="serif p-name">Folds</span>
-            
-            <span class="collapse-btn collapsed" id="foldsToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-          </button>
-          <div id="foldCardsContainer" style="display:none; margin-bottom:36px;"></div>
-        <button class="phase-row" data-key="bulkRise" style="background:#CDF3F0; border-color:#8FE0DE;">
-        <span class="serif p-name">Final % Rise</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-bulkRise" style="display:none;"></div><button class="phase-row" data-key="preshape" style="background:#CFE6FB; border-color:#9CC9F0;">
-        <span class="serif p-name">Pre-Shape Dough &amp; Bench Rest</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-preshape" style="display:none;"></div><button class="phase-row" data-key="bench" style="background:#DAD5FB; border-color:#B3ADEE;">
-        <span class="serif p-name">Shape Dough &amp; Rest in Basket</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-bench" style="display:none;"></div><button class="phase-row" data-key="final" style="background:#EBDCF7; border-color:#D0B8EA;">
-        <span class="serif p-name">Cold Proof in Fridge</span>
-        
-        <span class="collapse-btn collapsed" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-      </button>
-      <div class="card" id="phasePanel-final" style="display:none;"></div>
-        <button class="phase-row" id="bakeToggleRow" type="button" style="background:#FADCF0; border-color:#E8AEDD;">
-          <span class="serif p-name">Bake</span>
-          
-          <span class="collapse-btn collapsed" id="bakeToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-        </button>
-        <div id="bakeCardsContainer" style="display:none;"></div>
-      
-        <button class="phase-row" id="loafWeightToggleRow" type="button" style="background:#FFE1E1; border-color:#FFB3B3;">
-          <span class="serif p-name">Loaf Weight 1065g</span>
-          <span class="collapse-btn collapsed" id="loafWeightToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-        </button>
-        <div class="card" id="loafWeightContainer" style="display:none;"></div>
-      
-        <button class="phase-row" id="bakersPercentToggleRow" type="button" style="background:#FFE8CC; border-color:#FFC98B;">
-          <span class="serif p-name">Baker's % — 69.1% hydration</span>
-          <span class="collapse-btn collapsed" id="bakersPercentToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">🍞</span>
-        </button>
-        <div class="card" id="bakersPercentContainer" style="display:none;"></div>
-      </div>
+      <div class="phase-list" id="phaseList"></div>
     </div>
 
     <div>
       <p class="section-label">Progress</p>
-      <div class="card" id="progressContent" style="gap:0;"><p style="color:var(--muted); font-size:14px; margin:0;">Nothing marked done yet. As you complete steps, they'll show up here.</p></div>
+      <div class="card" id="progressContent" style="gap:0;"></div>
     </div>
 
     <div>
@@ -789,28 +728,35 @@
       <textarea id="notes" rows="3" placeholder="Observations, adjustments, reminders..."></textarea>
     </div>
 
-    <button class="end-btn" id="endBtn">End Session</button>
+    <button class="end-btn" id="endBtn"><span class="end-btn-icon">&#127838;</span><span class="end-btn-label">End Session</span></button>
 
-    <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:4px;">
-      <button type="button" class="pill solid small" id="openHelpBtn" style="font-size:13px;">Help</button>
-      <button type="button" class="pill solid small" id="openSaveBtn" style="font-size:13px;">Save</button>
-      <button type="button" class="pill small" id="exportRecipesBtn" style="font-size:13px;">Export recipes</button>
-      <button type="button" class="pill small" id="importRecipesBtn" style="font-size:13px;">Import recipes</button>
-      <input type="file" id="importRecipesFile" accept="application/json,.json" style="display:none;">
-    </div>
+    <div style="height:1px; background:var(--line); margin:8px 4px 0;"></div>
 
-    <p style="text-align:center; font-size:12px; color:var(--muted-light); margin:0;">© Thor 2026 · Timer v2.1</p>
-
-    <nav class="bottom-bar">
-      <button type="button" class="bottom-bar-btn" id="openHelpBtnBar" style="background:transparent; color:var(--accent); border:1.5px solid var(--accent); box-shadow:none;">HELP</button>
-      <button type="button" class="bottom-bar-btn" id="openBakeLogBtn">BAKE LOG</button>
+    <nav class="bottom-bar" style="border-radius:20px; border-top:none; box-shadow: var(--shadow-sm); margin-top:4px; padding:12px;">
+      <button type="button" class="bottom-bar-btn" id="openBakeLogBtn">
+        <span style="margin-right:6px;">&#128220;</span>BAKE LOG
+      </button>
     </nav>
+
+    <p style="text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0;">&copy; Thor 2026 · Timer v2.1</p>
   </div>
 
 </div>
 
 <script>
 (function () {
+  // Defensive: always start with every overlay/modal closed, no matter what
+  // state happens to be baked into this HTML file's static markup (this can
+  // happen if the page was saved/duplicated with a panel like Save open —
+  // the browser's "Save As" captures the live DOM at that moment).
+  ["recapOverlay", "bakeLogOverlay", "saveOverlay", "helpOverlay"].forEach(function (id) {
+    var ov = document.getElementById(id);
+    if (!ov) return;
+    ov.classList.remove("open");
+    ov.style.display = "none";
+    ov.setAttribute("aria-hidden", "true");
+  });
+
   // ---------- password lock (DISABLED for now — restore later with same hero background) ----------
   // LOCK_PASSWORD was "1234". lockScreen uses background-image:var(--hero-bg).
   (function initLockScreen() {
@@ -2816,9 +2762,6 @@
       }, 250);
     };
   <\/script>
-<!--SOURDOUGH_SNAPSHOT_START
-{"version":1,"exportedAt":"2026-07-30T15:31:02.718Z","localStorage":{"sourdoughCustomRecipeData":"{}","sourdoughCustomRecipes":"[]","sourdoughRecipeName":"Sourdough Bread","sourdoughBakeLog":"[]"}}
-SOURDOUGH_SNAPSHOT_END-->
 </body>
 </html>`;
 
@@ -3135,6 +3078,10 @@ SOURDOUGH_SNAPSHOT_END-->
     el("recapOverlay").style.display = "flex";
   });
 
+  el("closeRecapBtn").addEventListener("click", () => {
+    el("recapOverlay").style.display = "none";
+  });
+
   function resetSessionAfterRecap() {
     phases = makePhases();
     FOLD_GROUPS.forEach((g) => {
@@ -3365,16 +3312,20 @@ SOURDOUGH_SNAPSHOT_END-->
     o.style.display = "none";
     o.setAttribute("aria-hidden", "true");
   }
+  // Exposed globally so inline onclick handlers on the Save sheet work
+  // even if delegated document click handling doesn't fire for some reason.
+  window.openSavePanel = openSavePanel;
+  window.closeSavePanel = closeSavePanel;
 
   async function actionSaveAppToFile() {
     try {
       const data = getAllAppData();
       const snapshot = JSON.stringify(data);
       let html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-      html = html.replace(//g, "");
+      html = html.replace(/<!--SOURDOUGH_SNAPSHOT_START[\s\S]*?SOURDOUGH_SNAPSHOT_END-->/g, "");
       // strip open save overlay state
-      html = html.replace(/id="saveOverlay" class="save-overlay" aria-hidden="true" style="display:none;">]*>/, 'id="saveOverlay" class="save-overlay" aria-hidden="true" style="display:none;">');
-      const block = "";
+      html = html.replace(/id="saveOverlay"[^>]*>/, 'id="saveOverlay" class="save-overlay" aria-hidden="true" style="display:none;">');
+      const block = "<!--SOURDOUGH_SNAPSHOT_START\n" + snapshot + "\nSOURDOUGH_SNAPSHOT_END-->";
       if (html.indexOf("</body>") >= 0) html = html.replace("</body>", block + "\n</body>");
       else html += block;
       const blob = new Blob([html], { type: "text/html;charset=utf-8" });
@@ -3547,7 +3498,7 @@ async function actionCreatePdfBakeLog() {
   document.addEventListener("click", function (ev) {
     const t = ev.target;
     if (!t || !t.closest) return;
-    if (t.id === "openHelpBtn" || t.closest("#openHelpBtn") || t.id === "openHelpBtnBar" || t.closest("#openHelpBtnBar")) {
+    if (t.id === "openHelpBtn" || t.closest("#openHelpBtn")) {
       ev.preventDefault();
       openHelpPanel();
       return;
@@ -3620,7 +3571,7 @@ async function actionCreatePdfBakeLog() {
   <div class="card" style="width:100%; max-width:480px; max-height:85vh; overflow-y:auto; box-shadow: var(--shadow-lg); gap:12px;">
     <div style="display:flex; align-items:center; justify-content:space-between;">
       <h1 class="serif" style="margin:0; font-size:32px;">How to use</h1>
-      <button type="button" class="collapse-btn" id="closeHelpBtn" style="width:36px; height:36px; font-size:18px;">✕</button>
+      <button type="button" class="collapse-btn" id="closeHelpBtn" style="width:36px; height:36px; font-size:18px;">&#10005;</button>
     </div>
     <div style="font-size:15px; color:var(--ink); line-height:1.5;">
       <p style="margin:0 0 10px; color:var(--muted);">A simple guide for this bake timer.</p>
@@ -3661,9 +3612,12 @@ async function actionCreatePdfBakeLog() {
   </div>
 </div>
 
-<div id="saveOverlay" class="save-overlay open" aria-hidden="false" style="display: flex;">
+<div id="saveOverlay" class="save-overlay" aria-hidden="true" onclick="if (event.target === this && window.closeSavePanel) window.closeSavePanel();">
   <div class="save-sheet" role="dialog" aria-labelledby="saveTitle">
-    <h2 id="saveTitle">Save</h2>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+      <h2 id="saveTitle" style="margin:0;">Save</h2>
+      <button type="button" class="collapse-btn" id="saveCloseTriangleBtn" title="Close" style="width:36px; height:36px; font-size:16px; flex-shrink:0;" onclick="window.closeSavePanel && window.closeSavePanel();">&#9650;</button>
+    </div>
     <p class="save-lead">Back up and share your bake timer. On a phone, Save uses the Share sheet (Save to Files).</p>
 
     <div class="save-card">
@@ -3689,7 +3643,7 @@ async function actionCreatePdfBakeLog() {
         <button type="button" class="save-btn outline" id="saveExportDataBtn">Export data</button>
         <button type="button" class="save-btn outline" id="saveImportDataBtn">Import data</button>
       </div>
-      <input type="file" id="saveImportFileInput" accept="application/json,.json" style="display:none;">
+      <input type="file" id="saveImportFileInput" accept="application/json,.json" style="display:none;" />
     </div>
 
     <div class="save-card">
@@ -3700,10 +3654,9 @@ async function actionCreatePdfBakeLog() {
       </div>
     </div>
 
-    <button type="button" class="save-close" id="saveCloseBtn">Close</button>
+    <button type="button" class="save-close" id="saveCloseBtn" onclick="window.closeSavePanel && window.closeSavePanel();">Close</button>
   </div>
 </div>
 
-
-
-</body></html>
+</body>
+</html>

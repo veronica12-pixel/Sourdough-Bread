@@ -696,11 +696,14 @@
   <div class="tab-panel active" id="tab-bake">
     <div>
       <h1 class="serif" id="pageTitle">Bake</h1>
-      <div id="resumeBanner" style="display:none; margin:8px 0 4px; padding:12px 14px; border-radius:16px; background:var(--accent-tint); border:1px solid var(--accent);">
-        <p style="margin:0 0 8px; font-size:14px; font-weight:600; color:var(--accent-dark);">Resume bake in progress?</p>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button type="button" class="pill solid small" id="resumeBakeBtn">Resume</button>
-          <button type="button" class="pill small" id="discardResumeBtn">Start fresh</button>
+      <div id="resumeBanner" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.5); backdrop-filter:blur(2px); z-index:300; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
+        <div class="card" style="width:100%; max-width:420px; box-shadow: var(--shadow-lg); text-align:center; align-items:center;">
+          <p style="margin:0; font-size:20px; font-weight:700; color:var(--accent-dark);">Resume bake in progress?</p>
+          <p style="margin:0; font-size:14px; color:var(--muted);">You have a bake session that hasn't finished yet.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; width:100%; margin-top:4px;">
+            <button type="button" class="pill solid" id="resumeBakeBtn" style="flex:1;">Resume</button>
+            <button type="button" class="pill" id="discardResumeBtn" style="flex:1;">Start fresh</button>
+          </div>
         </div>
       </div>
       <div id="recipeQtyRow" style="display:flex; flex-direction:column; flex-wrap:nowrap; align-items:flex-start; gap:8px; margin:4px 0; width:100%; max-width:100%; box-sizing:border-box;">
@@ -775,6 +778,47 @@
     if (lockScreen) lockScreen.style.display = "none";
   })();
 
+  // ---------- keep screen awake while the app is open ----------
+  // Bake sessions run 30-45+ minutes between steps, so we ask the browser to
+  // hold the screen on for as long as this tab stays open and visible,
+  // re-acquiring the lock whenever it's released (e.g. after the tab was
+  // backgrounded and comes back to the front).
+  (function initWakeLock() {
+    let wakeLock = null;
+    let reacquireOnVisible = true;
+
+    async function requestWakeLock() {
+      if (!("wakeLock" in navigator)) return;
+      try {
+        wakeLock = await navigator.wakeLock.request("screen");
+        wakeLock.addEventListener("release", () => {
+          wakeLock = null;
+        });
+      } catch (e) {
+        // Screen Wake Lock isn't available (unsupported browser, insecure
+        // context, battery saver, etc.) — fail silently, nothing else to do.
+      }
+    }
+
+    requestWakeLock();
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && reacquireOnVisible && !wakeLock) {
+        requestWakeLock();
+      }
+    });
+
+    // Some browsers only grant a wake lock in response to a user gesture —
+    // opportunistically try again on the first tap/click if we don't have one yet.
+    document.addEventListener("click", () => {
+      if (!wakeLock) requestWakeLock();
+    }, { once: false });
+
+    window.addEventListener("beforeunload", () => {
+      reacquireOnVisible = false;
+    });
+  })();
+
   // Dough Temping Guide (approx. target % rise by dough temperature)
   // Pastel rainbow palette, applied in order down the phase list
   const RAINBOW_PALETTE = [
@@ -838,9 +882,9 @@
         { name: "Water", qty: "350g" },
         { name: "", qty: "" },
       ], fields: [
-        { key: "flourUsed", label: "Flour used", value: "", placeholder: "e.g. bread flour, 00, rye blend", pairKey: "autolyseTemp", logLabel: "Flour used" },
-        { key: "autolyseTemp", label: "Temp", value: "", placeholder: "\u00b0F", logLabel: "Temp" },
-        { key: "autolysePH", label: "PH", value: "", placeholder: "e.g. 4.0", wide: true, logLabel: "PH" },
+        { key: "flourUsed", label: "Flour used", value: "", placeholder: "e.g. bread flour, 00, rye blend", wide: true, logLabel: "Flour used" },
+        { key: "autolyseTemp", label: "Temp", value: "", placeholder: "\u00b0F", pairKey: "autolysePH", logLabel: "Temp" },
+        { key: "autolysePH", label: "PH", value: "", placeholder: "e.g. 4.0", logLabel: "PH" },
       ] },
     { key: "bulk", label: "Bulk Fermentation", icon: "&#128200;", defaultMinutes: 20, folds: true, countUp: true, hint: "Start this timer once all the ingredients are mixed together.", hint2: "This timer will stop automatically at the end of Final % Rise.", ingredients: [
         { name: "Levain", qty: "100g" },
@@ -849,9 +893,9 @@
       ], inclusions: [
         { name: "", qty: "" },
       ], fields: [
-        { key: "flourUsed", label: "Flour used", value: "", placeholder: "e.g. bread flour, 00, rye blend", pairKey: "bulkTemp", logLabel: "Flour used" },
-        { key: "bulkTemp", label: "Temp", value: "", placeholder: "\u00b0F", logLabel: "Temp" },
-        { key: "bulkPH", label: "PH", value: "", placeholder: "e.g. 4.0", wide: true, logLabel: "PH" },
+        { key: "flourUsed", label: "Flour used", value: "", placeholder: "e.g. bread flour, 00, rye blend", wide: true, logLabel: "Flour used" },
+        { key: "bulkTemp", label: "Temp", value: "", placeholder: "\u00b0F", pairKey: "bulkPH", logLabel: "Temp" },
+        { key: "bulkPH", label: "PH", value: "", placeholder: "e.g. 4.0", logLabel: "PH" },
       ] },
     { key: "bulkRise", label: "Final % Rise", icon: "&#127749;", defaultMinutes: 20, hasDone: true, countUp: true, fields: [
         { key: "roomTemp", label: "Room Temperature", value: "", placeholder: "\u00b0F" },
@@ -1456,9 +1500,18 @@
       if (p.key === "bulk") {
         const foldColor = RAINBOW_PALETTE[colorIdx % RAINBOW_PALETTE.length];
         colorIdx++;
+        let foldsDurationBadge = "";
+        if (foldsCompleted) {
+          const totalFoldSeconds = foldLog.reduce((sum, entry) => {
+            const durSec = Math.max(0, Math.round((entry.endTime - entry.startTime) / 1000));
+            return sum + durSec;
+          }, 0);
+          if (totalFoldSeconds) foldsDurationBadge = `<span class="serif p-duration" style="font-size:20px; font-weight:700; color:${foldColor.border}; flex-shrink:0;">${formatDurationCompact(totalFoldSeconds)}</span>`;
+        }
         rowHtml += `
           <button class="phase-row" id="foldsToggleRow" type="button" style="background:${foldColor.bg}; border-color:${foldColor.border};">
             <span class="serif p-name${foldsCompleted ? " done" : ""}">Folds</span>
+            ${foldsDurationBadge}
             ${foldsCompleted ? `<span class="check" style="color:${foldColor.border};">&#9829;</span>` : ""}
             <span class="collapse-btn" id="foldsToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">&#127838;</span>
           </button>
@@ -1469,15 +1522,25 @@
     }).join("") + (() => {
       const flatPreset = getFlatBakePreset();
       const REQUIRED_BAKE_KEYS = flatPreset ? ["coveredBake"] : ["coveredBake", "uncoveredBake"];
-      const bakePhases = phases.filter((p) => BAKE_SUB_KEYS.includes(p.key));
       const requiredBakePhases = phases.filter((p) => REQUIRED_BAKE_KEYS.includes(p.key));
       const bakeAllDone = requiredBakePhases.every((p) => p.completed);
       const bakeColor = RAINBOW_PALETTE[colorIdx % RAINBOW_PALETTE.length];
       colorIdx++;
       const bakeColorStyle = `style="background:${bakeColor.bg}; border-color:${bakeColor.border};"`;
+      let bakeDurationBadge = "";
+      if (bakeAllDone) {
+        const totalBakeSeconds = phases.filter((p) => p.key === "coveredBake" || p.key === "uncoveredBake").reduce((sum, p) => {
+          if (!p.completed) return sum;
+          let durSec = durationBetweenTimes(p.startTime, p.endTime);
+          if (durSec === null) durSec = parseElapsedSeconds(p) || 0;
+          return sum + (durSec || 0);
+        }, 0);
+        if (totalBakeSeconds) bakeDurationBadge = `<span class="serif p-duration" style="font-size:20px; font-weight:700; color:${bakeColor.border}; flex-shrink:0;">${formatDurationCompact(totalBakeSeconds)}</span>`;
+      }
       return `
         <button class="phase-row" id="bakeToggleRow" type="button" ${bakeColorStyle}>
           <span class="serif p-name${bakeAllDone ? " done" : ""}">Bake</span>
+          ${bakeDurationBadge}
           ${bakeAllDone ? `<span class="check" style="color:${bakeColor.border};">&#9829;</span>` : ""}
           <span class="collapse-btn" id="bakeToggleChevron" style="pointer-events:none; width:28px; height:28px; font-size:14px;">&#127838;</span>
         </button>
@@ -1819,7 +1882,7 @@
               <input class="field-input" type="text" data-field-key="${primary.key}" placeholder="${primary.placeholder || "&mdash;"}" value="${primary.value}" style="width:100%; box-sizing:border-box; text-align:left; padding:10px 12px;" />
             </div>
             ${secondary ? `
-            <div style="display:flex; flex-direction:column; gap:6px; flex:0 0 100px;">
+            <div style="display:flex; flex-direction:column; gap:6px; flex:1;">
               <label style="font-size:14px; font-weight:600; color:var(--ink);">${secondary.label}</label>
               <input class="field-input" type="text" data-field-key="${secondary.key}" placeholder="${secondary.placeholder || "&mdash;"}" value="${secondary.value}" style="width:100%; box-sizing:border-box; text-align:left; padding:10px 12px;" />
             </div>` : ""}
@@ -2058,6 +2121,7 @@
       }
 
       // Snapshot so a mistaken tap can be undone
+      const prevBakePanelOpen = bakePanelOpen;
       const prev = {
         completed: p.completed,
         completedAt: p.completedAt,
@@ -2065,12 +2129,14 @@
         doneNote: p.doneNote,
         startTime: p.startTime,
         endTime: p.endTime,
+        open: p.open,
         bulk: bulkPhaseP ? {
           completed: bulkPhaseP.completed,
           completedAt: bulkPhaseP.completedAt,
           doneNote: bulkPhaseP.doneNote,
           startTime: bulkPhaseP.startTime,
           endTime: bulkPhaseP.endTime,
+          open: bulkPhaseP.open,
         } : null,
       };
 
@@ -2099,10 +2165,30 @@
           : "Done at " + timeStr;
       }
 
+      if (p.key === "uncoveredBake") {
+        const coveredBakeP = phases.find((ph) => ph.key === "coveredBake");
+        let coveredSeconds = 0;
+        if (coveredBakeP) {
+          coveredSeconds = durationBetweenTimes(coveredBakeP.startTime, coveredBakeP.endTime);
+          if (coveredSeconds === null) coveredSeconds = parseElapsedSeconds(coveredBakeP) || 0;
+        }
+        const uncoveredSeconds = manualDuration !== null ? manualDuration : (parseElapsedSeconds(p) || 0);
+        const totalBakeSeconds = coveredSeconds + uncoveredSeconds;
+        if (totalBakeSeconds > 0) {
+          p.doneNote += " \u2014 Total bake time (Covered + Uncovered): " + formatDurationWords(totalBakeSeconds);
+        }
+      }
+
       alertUser(p.label + " is done", "Tap to continue your bake.", {
         phaseKey: p.key,
         keepOpen: p.key === "coveredBake" || p.key === "scoreTimer"
       });
+
+      if (p.key === "uncoveredBake") {
+        bakePanelOpen = false;
+      } else if (!BAKE_SUB_KEYS.includes(p.key)) {
+        p.open = false;
+      }
 
       if (p.key === "bulkRise" && bulkPhaseP && !bulkPhaseP.completed) {
         bulkPhaseP.completed = true;
@@ -2121,6 +2207,7 @@
             ? "Done at " + timeStr + " (" + formatDurationWords(Math.round((now - bulkPrevAt) / 1000)) + " since previous step)"
             : "Done at " + timeStr;
         }
+        bulkPhaseP.open = false;
       }
 
       render();
@@ -2132,12 +2219,15 @@
         p.doneNote = prev.doneNote;
         p.startTime = prev.startTime;
         p.endTime = prev.endTime;
+        p.open = prev.open;
+        bakePanelOpen = prevBakePanelOpen;
         if (bulkPhaseP && prev.bulk) {
           bulkPhaseP.completed = prev.bulk.completed;
           bulkPhaseP.completedAt = prev.bulk.completedAt;
           bulkPhaseP.doneNote = prev.bulk.doneNote;
           bulkPhaseP.startTime = prev.bulk.startTime;
           bulkPhaseP.endTime = prev.bulk.endTime;
+          bulkPhaseP.open = prev.bulk.open;
         }
       });
     });
@@ -2148,6 +2238,9 @@
       p.completedAt = Date.now();
       p.showDoneBanner = false;
       p.doneNote = "Skipped";
+      if (p.key === "uncoveredBake") {
+        bakePanelOpen = false;
+      }
       render();
     });
 
@@ -2817,9 +2910,9 @@
       return;
     }
     grid.innerHTML = recapPhotos.map((src, i) => `
-      <div style="position:relative; width:84px; height:84px;">
-        <img src="${src}" style="width:84px; height:84px; object-fit:cover; border-radius:12px;" />
-        <button data-remove-photo="${i}" style="position:absolute; top:-6px; right:-6px; width:22px; height:22px; border-radius:50%; border:none; background:var(--danger); color:white; font-size:12px; cursor:pointer; line-height:1;">&#10005;</button>
+      <div style="position:relative; width:96px; height:96px; border-radius:12px; overflow:hidden; box-shadow: inset 0 0 0 1px rgba(63,166,162,0.18);">
+        <img src="${src}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+        <button data-remove-photo="${i}" title="Delete photo" style="position:absolute; top:6px; right:6px; width:24px; height:24px; border-radius:50%; border:none; background:rgba(59,47,34,0.65); color:white; font-size:12px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">&#10005;</button>
       </div>
     `).join("");
     grid.querySelectorAll("[data-remove-photo]").forEach((btn) => {
@@ -2827,6 +2920,7 @@
         const idx = parseInt(btn.getAttribute("data-remove-photo"), 10);
         recapPhotos.splice(idx, 1);
         renderRecapPhotoGrid();
+        if (sessionStarted) snapshotSession();
       });
     });
   }
@@ -3495,7 +3589,7 @@
       const ageH = (Date.now() - (pendingResume.savedAt || 0)) / 3600000;
       if (ageH < 36) {
         const banner = el("resumeBanner");
-        if (banner) banner.style.display = "block";
+        if (banner) banner.style.display = "flex";
       } else {
         clearSavedSession();
         pendingResume = null;

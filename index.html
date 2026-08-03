@@ -95,30 +95,35 @@
 
   .top-tabs {
     display: flex;
-    gap: 6px;
-    background: var(--card);
-    border-radius: 999px;
-    padding: 6px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--line);
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 4px;
   }
+  .top-tabs::-webkit-scrollbar { display: none; }
   .top-tab-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
     border-radius: 999px;
-    padding: 11px 12px;
-    font-size: 15px;
+    padding: 11px 14px;
+    font-size: 14.5px;
     font-weight: 700;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
     color: var(--muted);
     cursor: pointer;
     font-family: inherit;
+    white-space: nowrap;
     transition: background-color .15s ease, color .15s ease;
   }
   .top-tab-btn.active {
     background: var(--accent);
     color: #FBF3E9;
+    border-color: var(--accent);
     box-shadow: 0 3px 10px rgba(224,145,199,0.4);
   }
 
@@ -678,6 +683,8 @@
   }
 
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -740,12 +747,6 @@
   </div>
 
 
-  <!-- TOP TAB SWITCHER -->
-  <div class="top-tabs" id="topTabs">
-    <button type="button" class="top-tab-btn active" id="tabBtnBake" data-tab="bake">&#127838; Bake</button>
-    <button type="button" class="top-tab-btn" id="tabBtnRecipe" data-tab="recipe">&#128220; Recipe</button>
-  </div>
-
   <!-- BAKE TAB -->
   <div class="tab-panel active" id="tab-bake">
     <div>
@@ -805,13 +806,20 @@
       </button>
     </nav>
 
+    <!-- TOP TAB SWITCHER -->
+    <div class="top-tabs" id="topTabs1">
+      <button type="button" class="top-tab-btn active" id="tabBtn_bake_1" data-tab="bake">&#127838; Bake</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_recipe_1" data-tab="recipe">&#128220; Recipes</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_1" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+    </div>
+
     <p id="openSaveBtn" style="text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
   </div>
 
   <!-- RECIPE TAB -->
   <div class="tab-panel" id="tab-recipe">
     <div>
-      <h1 class="serif">Recipe</h1>
+      <h1 class="serif">Recipes</h1>
       <div style="position:relative; margin-top:10px; max-width:100%; display:flex; align-items:center; gap:8px;">
         <button type="button" id="recipeTabSelectBtn" style="display:inline-flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:10px 14px; font-family:inherit; cursor:pointer; max-width:100%; width:auto; box-sizing:border-box;">
           <span id="recipeTabHeart" style="display:none; font-size:16px; color:var(--accent); flex-shrink:0;">&#9829;</span>
@@ -824,17 +832,61 @@
     </div>
     <div id="recipeTabBody"></div>
     <p id="openSaveBtnRecipe" style="text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+    <div class="top-tabs" id="topTabs2">
+      <button type="button" class="top-tab-btn" id="tabBtn_bake_2" data-tab="bake">&#127838; Bake</button>
+      <button type="button" class="top-tab-btn active" id="tabBtn_recipe_2" data-tab="recipe">&#128220; Recipes</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_2" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS TAB -->
+  <div class="tab-panel" id="tab-testimonials">
+    <div>
+      <h1 class="serif">Testimonials</h1>
+      <p class="subtitle" style="margin:8px 0 0;">Photos of your bread, all in one place. Tap a photo to edit or delete it.</p>
+    </div>
+    <div>
+      <div id="testimonialsGrid" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+      <label class="pill" style="width:100%; box-sizing:border-box; justify-content:center; margin-top:10px; cursor:pointer;">
+        Add Photos
+        <input type="file" id="testimonialsPhotoInput" accept="image/*" multiple style="display:none;" />
+      </label>
+    </div>
+    <p id="openSaveBtnTestimonials" style="text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+    <div class="top-tabs" id="topTabs3">
+      <button type="button" class="top-tab-btn" id="tabBtn_bake_3" data-tab="bake">&#127838; Bake</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_recipe_3" data-tab="recipe">&#128220; Recipes</button>
+      <button type="button" class="top-tab-btn active" id="tabBtn_testimonials_3" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+    </div>
+  </div>
+
+  <div id="testimonialLightbox" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.6); backdrop-filter:blur(2px); z-index:250; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
+    <div class="card" style="width:100%; max-width:420px; box-shadow: var(--shadow-lg); align-items:center;">
+      <img id="testimonialLightboxImg" src="" style="width:100%; max-height:60vh; object-fit:contain; border-radius:14px; background:var(--accent-bg);" />
+      <div style="display:flex; gap:10px; width:100%; margin-top:4px;">
+        <button type="button" class="pill" id="testimonialEditBtn" style="flex:1; justify-content:center;">Edit</button>
+        <button type="button" class="pill" id="testimonialDeleteBtn" style="flex:1; justify-content:center; color:var(--danger); border-color:var(--danger-line);">Delete</button>
+      </div>
+      <button type="button" class="pill" id="testimonialCloseBtn" style="width:100%; box-sizing:border-box; justify-content:center;">Close</button>
+      <input type="file" id="testimonialEditInput" accept="image/*" style="display:none;" />
+    </div>
   </div>
 
 </div>
 
 <script>
 (function () {
+  // ---------- cross-device sync (Firebase Realtime Database) ----------
+  let syncDb = null;
+  let syncRef = null;
+  let syncApplyingRemote = false;
+  let syncPushTimer = null;
+
   // Defensive: always start with every overlay/modal closed, no matter what
   // state happens to be baked into this HTML file's static markup (this can
   // happen if the page was saved/duplicated with a panel like Save open —
   // the browser's "Save As" captures the live DOM at that moment).
-  ["recapOverlay", "bakeLogOverlay", "saveOverlay", "helpOverlay", "discardConfirmOverlay"].forEach(function (id) {
+  ["recapOverlay", "bakeLogOverlay", "saveOverlay", "helpOverlay", "discardConfirmOverlay", "testimonialLightbox"].forEach(function (id) {
     var ov = document.getElementById(id);
     if (!ov) return;
     ov.classList.remove("open");
@@ -1900,21 +1952,32 @@
   }
 
   (function initTopTabs() {
-    const bakeBtn = el("tabBtnBake");
-    const recipeBtn = el("tabBtnRecipe");
-    const bakePanel = el("tab-bake");
-    const recipePanel = el("tab-recipe");
-    if (!bakeBtn || !recipeBtn || !bakePanel || !recipePanel) return;
+    const panels = {
+      bake: el("tab-bake"),
+      recipe: el("tab-recipe"),
+      testimonials: el("tab-testimonials"),
+    };
+    const names = ["bake", "recipe", "testimonials"];
+    const instances = ["1", "2", "3"];
+    const buttons = [];
+    instances.forEach((suf) => {
+      names.forEach((name) => {
+        const btn = el("tabBtn_" + name + "_" + suf);
+        if (btn) buttons.push({ name, btn });
+      });
+    });
+    if (!buttons.length) return;
     function showTab(name) {
-      const isBake = name === "bake";
-      bakePanel.classList.toggle("active", isBake);
-      recipePanel.classList.toggle("active", !isBake);
-      bakeBtn.classList.toggle("active", isBake);
-      recipeBtn.classList.toggle("active", !isBake);
-      if (!isBake) renderRecipeTab();
+      Object.keys(panels).forEach((k) => {
+        if (panels[k]) panels[k].classList.toggle("active", k === name);
+      });
+      buttons.forEach((b) => b.btn.classList.toggle("active", b.name === name));
+      if (name === "recipe") renderRecipeTab();
+      if (name === "testimonials" && typeof renderTestimonialsGrid === "function") renderTestimonialsGrid();
     }
-    bakeBtn.addEventListener("click", () => showTab("bake"));
-    recipeBtn.addEventListener("click", () => showTab("recipe"));
+    buttons.forEach((b) => {
+      b.btn.addEventListener("click", () => showTab(b.name));
+    });
   })();
 
   function previousCompletionTimestamp(phase) {
@@ -3092,6 +3155,116 @@
     e.target.value = "";
   });
 
+  // ---------- Testimonials (persistent photo gallery, independent of any single bake) ----------
+  let testimonialPhotos = [];
+  try {
+    testimonialPhotos = JSON.parse(localStorage.getItem("sourdoughTestimonials") || "[]");
+  } catch (e) {
+    testimonialPhotos = [];
+  }
+  let testimonialLightboxIdx = -1;
+
+  function saveTestimonialPhotos() {
+    try { localStorage.setItem("sourdoughTestimonials", JSON.stringify(testimonialPhotos)); } catch (e) {}
+  }
+
+  function renderTestimonialsGrid() {
+    const grid = el("testimonialsGrid");
+    if (!grid) return;
+    if (testimonialPhotos.length === 0) {
+      grid.innerHTML = `<p style="font-size:14px; color:var(--muted-light); margin:0;">No photos yet — tap "Add Photos" below.</p>`;
+      return;
+    }
+    grid.innerHTML = testimonialPhotos.map((src, i) => `
+      <button type="button" data-open-testimonial="${i}" style="padding:0; border:none; cursor:pointer; width:104px; height:104px; border-radius:14px; overflow:hidden; box-shadow: inset 0 0 0 1px rgba(224,145,199,0.25);">
+        <img src="${src}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+      </button>
+    `).join("");
+    grid.querySelectorAll("[data-open-testimonial]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        openTestimonialLightbox(parseInt(btn.getAttribute("data-open-testimonial"), 10));
+      });
+    });
+  }
+
+  function openTestimonialLightbox(idx) {
+    if (idx < 0 || idx >= testimonialPhotos.length) return;
+    testimonialLightboxIdx = idx;
+    const box = el("testimonialLightbox");
+    const img = el("testimonialLightboxImg");
+    if (img) img.src = testimonialPhotos[idx];
+    if (box) box.style.display = "flex";
+  }
+
+  function closeTestimonialLightbox() {
+    testimonialLightboxIdx = -1;
+    const box = el("testimonialLightbox");
+    if (box) box.style.display = "none";
+  }
+
+  const testimonialsInput = el("testimonialsPhotoInput");
+  if (testimonialsInput) {
+    testimonialsInput.addEventListener("change", async (e) => {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        try {
+          const dataUrl = await resizeImage(file, 1200, 0.75);
+          testimonialPhotos.push(dataUrl);
+        } catch (err) {}
+      }
+      saveTestimonialPhotos();
+      renderTestimonialsGrid();
+      e.target.value = "";
+    });
+  }
+
+  const testimonialEditInput = el("testimonialEditInput");
+  if (testimonialEditInput) {
+    testimonialEditInput.addEventListener("change", async (e) => {
+      const file = e.target.files && e.target.files[0];
+      e.target.value = "";
+      if (!file || testimonialLightboxIdx < 0) return;
+      try {
+        const dataUrl = await resizeImage(file, 1200, 0.75);
+        testimonialPhotos[testimonialLightboxIdx] = dataUrl;
+        saveTestimonialPhotos();
+        renderTestimonialsGrid();
+        const img = el("testimonialLightboxImg");
+        if (img) img.src = dataUrl;
+      } catch (err) {}
+    });
+  }
+
+  const testimonialEditBtn = el("testimonialEditBtn");
+  if (testimonialEditBtn) {
+    testimonialEditBtn.addEventListener("click", () => {
+      if (testimonialEditInput) testimonialEditInput.click();
+    });
+  }
+
+  const testimonialDeleteBtn = el("testimonialDeleteBtn");
+  if (testimonialDeleteBtn) {
+    testimonialDeleteBtn.addEventListener("click", () => {
+      if (testimonialLightboxIdx < 0) return;
+      testimonialPhotos.splice(testimonialLightboxIdx, 1);
+      saveTestimonialPhotos();
+      renderTestimonialsGrid();
+      closeTestimonialLightbox();
+    });
+  }
+
+  const testimonialCloseBtn = el("testimonialCloseBtn");
+  if (testimonialCloseBtn) testimonialCloseBtn.addEventListener("click", closeTestimonialLightbox);
+
+  const testimonialLightboxEl = el("testimonialLightbox");
+  if (testimonialLightboxEl) {
+    testimonialLightboxEl.addEventListener("click", (e) => {
+      if (e.target === testimonialLightboxEl) closeTestimonialLightbox();
+    });
+  }
+
+  renderTestimonialsGrid();
+
   function getBakeLog() {
     try {
       return JSON.parse(localStorage.getItem("sourdoughBakeLog") || "[]");
@@ -3905,6 +4078,107 @@
     return data;
   }
 
+  function syncSetStatus(mode) {
+    const s = document.getElementById("syncStatus");
+    if (!s) return;
+    if (mode === "online") s.textContent = "Live — in sync.";
+    else if (mode === "connecting") s.textContent = "Connecting…";
+    else if (mode === "synced-now") s.textContent = "Synced just now.";
+    else s.textContent = "Offline — check your connection.";
+  }
+
+  // Same Firebase project already set up and working for the Household Tasks /
+  // Contractor Task List app. Using a distinct database path ("sourdoughBreadApp")
+  // keeps this app's data separate from that one's ("tasks" / "activityLog").
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDWceP3CnO43wj6xSu_FQ2jQ9N-LVxSKr8",
+    authDomain: "household-tasks-cb3ca.firebaseapp.com",
+    databaseURL: "https://household-tasks-cb3ca-default-rtdb.firebaseio.com",
+    projectId: "household-tasks-cb3ca",
+    storageBucket: "household-tasks-cb3ca.firebasestorage.app",
+    messagingSenderId: "719926406482",
+    appId: "1:719926406482:web:28ccdd630bea4531079e8b",
+  };
+
+  function syncPushNow() {
+    if (!syncRef || syncApplyingRemote) return;
+    clearTimeout(syncPushTimer);
+    syncPushTimer = setTimeout(() => {
+      const data = getAllAppData();
+      const updatedAt = Date.now();
+      syncRef.set({ updatedAt: updatedAt, localStorage: data.localStorage }).then(() => {
+        try { localStorage.setItem("sourdoughSyncLastApplied", String(updatedAt)); } catch (e) {}
+        syncSetStatus("synced-now");
+      }).catch((err) => {
+        console.error("Sync push failed", err);
+        syncSetStatus("offline");
+      });
+    }, 800);
+  }
+
+  let syncReceivedFirst = false;
+
+  function initFirebaseSync() {
+    if (typeof firebase === "undefined") {
+      syncSetStatus("offline");
+      return;
+    }
+    try {
+      syncSetStatus("connecting");
+      if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+      syncDb = firebase.database();
+      syncRef = syncDb.ref("sourdoughBreadApp");
+      syncRef.on("value", (snap) => {
+        const remote = snap.val();
+        if (!remote || !remote.localStorage) {
+          syncSetStatus("online");
+          if (!syncReceivedFirst) { syncReceivedFirst = true; syncPushNow(); }
+          return;
+        }
+        const lastApplied = parseInt(localStorage.getItem("sourdoughSyncLastApplied") || "0", 10);
+        if (remote.updatedAt && remote.updatedAt > lastApplied) {
+          syncApplyingRemote = true;
+          Object.keys(remote.localStorage).forEach((k) => {
+            try { localStorage.setItem(k, remote.localStorage[k]); } catch (e) {}
+          });
+          try { localStorage.setItem("sourdoughSyncLastApplied", String(remote.updatedAt)); } catch (e) {}
+          syncApplyingRemote = false;
+          if (syncReceivedFirst) {
+            location.reload();
+          } else {
+            syncSetStatus("online");
+          }
+        } else {
+          syncSetStatus("online");
+        }
+        syncReceivedFirst = true;
+      }, (err) => {
+        console.error("Sync read failed", err);
+        syncSetStatus("offline");
+      });
+    } catch (e) {
+      console.error("Sync init failed", e);
+      syncSetStatus("offline");
+    }
+  }
+
+  function syncNowManual() {
+    if (!syncRef) { initFirebaseSync(); return; }
+    syncPushNow();
+  }
+
+  // Any write to a sourdough-related localStorage key pushes a debounced
+  // sync update, without needing to hunt down every mutation call site.
+  (function hookStorageForSync() {
+    const origSetItem = localStorage.setItem.bind(localStorage);
+    localStorage.setItem = function (key, value) {
+      origSetItem(key, value);
+      if (!syncApplyingRemote && /sourdough|bake|recipe|fold|phase|loaf|bakers/i.test(key) && key !== "sourdoughSyncLastApplied") {
+        syncPushNow();
+      }
+    };
+  })();
+
   function isMobileDevice() {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || "")
       || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform || ""));
@@ -4190,7 +4464,7 @@ async function actionCreatePdfBakeLog() {
       closeHelpPanel();
       return;
     }
-    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn") || t.id === "openSaveBtnRecipe" || t.closest("#openSaveBtnRecipe")) {
+    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn") || t.id === "openSaveBtnRecipe" || t.closest("#openSaveBtnRecipe") || t.id === "openSaveBtnTestimonials" || t.closest("#openSaveBtnTestimonials")) {
       ev.preventDefault();
       openSavePanel();
       return;
@@ -4236,8 +4510,14 @@ async function actionCreatePdfBakeLog() {
       actionShareReadOnly();
       return;
     }
+    if (t.id === "syncNowBtn" || t.closest("#syncNowBtn")) {
+      ev.preventDefault();
+      syncNowManual();
+      return;
+    }
   });
 
+  initFirebaseSync();
 
   render();
 })();
@@ -4312,6 +4592,15 @@ async function actionCreatePdfBakeLog() {
       <div class="save-actions">
         <button type="button" class="save-btn soft" id="savePdfLogBtn">Create PDF of Bake Log</button>
       </div>
+    </div>
+
+    <div class="save-card">
+      <h3>Sync across devices</h3>
+      <p>This device and your other devices sync automatically over the internet — no setup needed. Tap Sync Now to force an immediate check.</p>
+      <div class="save-actions">
+        <button type="button" class="save-btn primary" id="syncNowBtn">Sync Now</button>
+      </div>
+      <p id="syncStatus" style="font-size:12px; color:var(--muted); margin:8px 0 0;">Connecting…</p>
     </div>
 
     <div class="save-card">

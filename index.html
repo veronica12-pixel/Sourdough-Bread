@@ -4314,6 +4314,30 @@
     location.reload();
   }
 
+  // Union two testimonial photo sets by content (never lets one side's data
+  // silently erase the other's — worst case you get duplicates, not loss).
+  function mergeTestimonialSets(localRaw, remoteRaw) {
+    if (localRaw == null && remoteRaw == null) return null;
+    let localList = [];
+    let remoteList = [];
+    try { localList = localRaw ? JSON.parse(localRaw) : []; } catch (e) { localList = []; }
+    try { remoteList = remoteRaw ? JSON.parse(remoteRaw) : []; } catch (e) { remoteList = []; }
+    const normalize = (item) => {
+      if (typeof item === "string") return { thumb: item, full: item, date: null };
+      return { thumb: item.thumb || item.src, full: item.full || item.src, date: item.date || null };
+    };
+    const merged = [...localList.map(normalize), ...remoteList.map(normalize)];
+    const seen = new Set();
+    const deduped = merged.filter((item) => {
+      const key = item.full || item.thumb;
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    deduped.sort((a, b) => (b.date || 0) - (a.date || 0));
+    return JSON.stringify(deduped);
+  }
+
   function initFirebaseSync() {
     if (typeof firebase === "undefined") {
       syncSetStatus("offline");
@@ -4334,11 +4358,22 @@
         const lastApplied = parseInt(localStorage.getItem("sourdoughSyncLastApplied") || "0", 10);
         if (remote.updatedAt && remote.updatedAt > lastApplied) {
           syncApplyingRemote = true;
+          const mergedTestimonials = mergeTestimonialSets(
+            localStorage.getItem("sourdoughTestimonials"),
+            remote.localStorage["sourdoughTestimonials"]
+          );
           Object.keys(remote.localStorage).forEach((k) => {
+            if (k === "sourdoughTestimonials") return; // handled via merge below
             try { localStorage.setItem(k, remote.localStorage[k]); } catch (e) {}
           });
+          if (mergedTestimonials !== null) {
+            try { localStorage.setItem("sourdoughTestimonials", mergedTestimonials); } catch (e) {}
+          }
           try { localStorage.setItem("sourdoughSyncLastApplied", String(remote.updatedAt)); } catch (e) {}
           syncApplyingRemote = false;
+          if (mergedTestimonials !== null && mergedTestimonials !== (remote.localStorage["sourdoughTestimonials"] || null)) {
+            syncPushNow();
+          }
           if (syncReceivedFirst) {
             reloadWhenIdle();
           } else {

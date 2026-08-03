@@ -93,6 +93,53 @@
   .tab-panel { display: none; flex-direction: column; gap: 24px; }
   .tab-panel.active { display: flex; }
 
+  .top-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--card);
+    border-radius: 999px;
+    padding: 6px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--line);
+  }
+  .top-tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 11px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .top-tab-btn.active {
+    background: var(--accent);
+    color: #FBF3E9;
+    box-shadow: 0 3px 10px rgba(224,145,199,0.4);
+  }
+
+  .recipe-phase-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--line);
+  }
+  .recipe-phase-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .recipe-phase-head .rp-icon { font-size: 20px; }
+  .recipe-phase-head .rp-title { font-size: 18px; margin: 0; font-family: inherit; font-weight: 700; }
+
   .placeholder {
     background: var(--card);
     border-radius: 24px;
@@ -207,12 +254,13 @@
     margin: 0; font-weight: 700;
   }
   .ingredient-row {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: flex-start; gap: 10px;
   }
   .ingredient-name {
     flex: 1; min-width: 0; border-radius: 10px; border: 1px solid var(--line-strong);
     padding: 6px 10px; font-size: 16px; color: var(--ink); background: var(--card);
-    font-family: inherit;
+    font-family: inherit; resize: none; overflow-y: auto; line-height: 1.3;
+    max-height: 4.2em; box-sizing: border-box;
   }
   .ingredient-name::placeholder { color: var(--muted-light); }
   .ingredient-qty {
@@ -692,6 +740,12 @@
   </div>
 
 
+  <!-- TOP TAB SWITCHER -->
+  <div class="top-tabs" id="topTabs">
+    <button type="button" class="top-tab-btn active" id="tabBtnBake" data-tab="bake">&#127838; Bake</button>
+    <button type="button" class="top-tab-btn" id="tabBtnRecipe" data-tab="recipe">&#128220; Recipe</button>
+  </div>
+
   <!-- BAKE TAB -->
   <div class="tab-panel active" id="tab-bake">
     <div>
@@ -707,11 +761,10 @@
         </div>
       </div>
       <div id="recipeQtyRow" style="display:flex; flex-direction:column; flex-wrap:nowrap; align-items:flex-start; gap:8px; margin:4px 0; width:100%; max-width:100%; box-sizing:border-box;">
-        <div style="position:relative; flex:0 0 auto; min-width:0; max-width:100%;">
+        <div style="position:relative; flex:0 0 auto; min-width:0; max-width:100%; display:flex; align-items:center; gap:8px;">
           <button type="button" id="recipeSelectBtn" style="display:inline-flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:10px 14px; font-family:inherit; cursor:pointer; max-width:100%; width:auto; box-sizing:border-box;">
             <span id="recipeHeart" style="display:none; font-size:16px; color:var(--accent); flex-shrink:0;">&#9829;</span>
             <span id="recipeSelectLabel" style="white-space:normal; overflow:visible; text-align:left;">Select Recipe</span>
-            <span style="font-size:14px; color:var(--accent); flex-shrink:0;">&#127838;</span>
           </button>
           <div id="recipeDropdownPanel" class="card" style="display:none; position:absolute; top:calc(100% + 6px); left:0; right:auto; z-index:60; min-width:220px; max-width:min(320px, 92vw); padding:10px; gap:4px; box-shadow: var(--shadow-lg);"></div>
         </div>
@@ -752,7 +805,25 @@
       </button>
     </nav>
 
-    <p style="text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0;">&copy; Thor 2026 · Timer v2.1</p>
+    <p id="openSaveBtn" style="text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+  </div>
+
+  <!-- RECIPE TAB -->
+  <div class="tab-panel" id="tab-recipe">
+    <div>
+      <h1 class="serif">Recipe</h1>
+      <div style="position:relative; margin-top:10px; max-width:100%; display:flex; align-items:center; gap:8px;">
+        <button type="button" id="recipeTabSelectBtn" style="display:inline-flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:10px 14px; font-family:inherit; cursor:pointer; max-width:100%; width:auto; box-sizing:border-box;">
+          <span id="recipeTabHeart" style="display:none; font-size:16px; color:var(--accent); flex-shrink:0;">&#9829;</span>
+          <span id="recipeTabSelectLabel" style="white-space:normal; overflow:visible; text-align:left;">Select Recipe</span>
+        </button>
+        <button type="button" id="recipeTabSaveNowBtn" class="stepper-btn" title="Save current ingredients to this recipe" style="width:38px; height:38px; font-size:15px; flex-shrink:0;">&#128190;</button>
+        <div id="recipeTabDropdownPanel" class="card" style="display:none; position:absolute; top:calc(100% + 6px); left:0; right:auto; z-index:60; min-width:220px; max-width:min(320px, 92vw); padding:10px; gap:4px; box-shadow: var(--shadow-lg);"></div>
+      </div>
+      <p class="subtitle" id="recipeTabSubtitle" style="margin:8px 0 0;">All the ingredients for your current recipe, in one place. Edit here or on the Bake tab &mdash; both stay in sync.</p>
+    </div>
+    <div id="recipeTabBody"></div>
+    <p id="openSaveBtnRecipe" style="text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
   </div>
 
 </div>
@@ -1767,7 +1838,84 @@
       if (foldCardEl) foldCardEl.style.display = "flex";
       renderFoldLog();
     }
+
+    renderRecipeTab();
   }
+
+  // ---------- Recipe tab (consolidated ingredient view, two-way synced with the Bake tab) ----------
+  const RECIPE_TAB_KEYS = ["levain", "autolyse", "bulk"];
+
+  function renderRecipeTab() {
+    const container = el("recipeTabBody");
+    if (!container) return;
+    const activeEl2 = document.activeElement;
+    const isTypingInRecipe = activeEl2 && (activeEl2.tagName === "INPUT" || activeEl2.tagName === "TEXTAREA") && container.contains(activeEl2);
+    if (isTypingInRecipe) return;
+
+    const recipeNameEl = el("recipeNameInput");
+    const recipeName = recipeNameEl ? recipeNameEl.value.trim() : "";
+
+    if (!recipeName) {
+      container.innerHTML = `<div class="placeholder">
+        <div class="p-emoji">&#127838;</div>
+        <p class="serif p-title">No recipe selected</p>
+        <p class="p-sub">Go to the Bake tab and tap "Select Recipe" to load ingredients here.</p>
+      </div>`;
+      return;
+    }
+
+    container.innerHTML = RECIPE_TAB_KEYS.map((key) => {
+      const p = phases.find((ph) => ph.key === key);
+      if (!p || !p.ingredients) return "";
+      const def = PHASE_DEFS.find((d) => d.key === key);
+      const icon = def ? def.icon : "";
+      const inclusionsBlock = p.inclusions ? `
+        <div class="ingredients-box" style="margin-top:4px;">
+          <p class="ingredients-title">Inclusions</p>
+          <div id="recipeTabInclRows-${key}"></div>
+          <button class="stepper-btn" id="recipeAddInclusionBtn-${key}" type="button" title="Add inclusion">&#43;</button>
+        </div>` : "";
+      return `
+        <div class="recipe-phase-card">
+          <div class="recipe-phase-head">
+            <span class="rp-icon">${icon}</span>
+            <p class="serif rp-title">${p.label}</p>
+          </div>
+          <div class="ingredients-box">
+            <p class="ingredients-title">Ingredients</p>
+            <div id="recipeTabRows-${key}"></div>
+            <button class="stepper-btn" id="recipeAddIngredientBtn-${key}" type="button" title="Add ingredient">&#43;</button>
+          </div>
+          ${inclusionsBlock}
+        </div>
+      `;
+    }).join("");
+
+    RECIPE_TAB_KEYS.forEach((key) => {
+      const p = phases.find((ph) => ph.key === key);
+      if (!p) return;
+      if (p.ingredients) renderItemList(p.ingredients, "recipeTabRows-" + key, "recipeAddIngredientBtn-" + key);
+      if (p.inclusions) renderItemList(p.inclusions, "recipeTabInclRows-" + key, "recipeAddInclusionBtn-" + key);
+    });
+  }
+
+  (function initTopTabs() {
+    const bakeBtn = el("tabBtnBake");
+    const recipeBtn = el("tabBtnRecipe");
+    const bakePanel = el("tab-bake");
+    const recipePanel = el("tab-recipe");
+    if (!bakeBtn || !recipeBtn || !bakePanel || !recipePanel) return;
+    function showTab(name) {
+      const isBake = name === "bake";
+      bakePanel.classList.toggle("active", isBake);
+      recipePanel.classList.toggle("active", !isBake);
+      bakeBtn.classList.toggle("active", isBake);
+      recipeBtn.classList.toggle("active", !isBake);
+      if (!isBake) renderRecipeTab();
+    }
+    bakeBtn.addEventListener("click", () => showTab("bake"));
+    recipeBtn.addEventListener("click", () => showTab("recipe"));
+  })();
 
   function previousCompletionTimestamp(phase) {
     const idx = phases.indexOf(phase);
@@ -2262,17 +2410,24 @@
     const activeEl3 = document.activeElement;
     const isTypingInItems = activeEl3 && (activeEl3.tagName === "INPUT" || activeEl3.tagName === "TEXTAREA") && container.contains(activeEl3);
     if (isTypingInItems) return;
+    const escName = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     container.innerHTML = items.map((ing, i) => `
       <div class="ingredient-row">
-        <input class="ingredient-name" type="text" data-idx="${i}" data-field="name" placeholder="Ingredient" value="${ing.name}" />
+        <textarea class="ingredient-name" rows="1" data-idx="${i}" data-field="name" placeholder="Ingredient">${escName(ing.name)}</textarea>
         <input class="ingredient-qty" type="text" data-idx="${i}" data-field="qty" placeholder="Amount (g)" value="${ing.qty}" />
       </div>
     `).join("");
-    container.querySelectorAll("input").forEach((input) => {
+    function autoGrowName(ta) {
+      ta.style.height = "auto";
+      ta.style.height = Math.min(ta.scrollHeight, 68) + "px";
+    }
+    container.querySelectorAll(".ingredient-name").forEach((ta) => autoGrowName(ta));
+    container.querySelectorAll("input, textarea").forEach((input) => {
       input.addEventListener("input", (e) => {
         const idx = parseInt(e.target.getAttribute("data-idx"), 10);
         const field = e.target.getAttribute("data-field");
         items[idx][field] = e.target.value;
+        if (e.target.tagName === "TEXTAREA") autoGrowName(e.target);
         sessionStarted = true;
         snapshotSession();
         if (onChange) onChange();
@@ -3233,10 +3388,10 @@
 
   (function initRecipeName() {
     const input = el("recipeNameInput");
-    const btn = el("recipeSelectBtn");
-    const label = el("recipeSelectLabel");
-    const heart = el("recipeHeart");
-    const panel = el("recipeDropdownPanel");
+    const pickers = [
+      { btn: el("recipeSelectBtn"), label: el("recipeSelectLabel"), heart: el("recipeHeart"), panel: el("recipeDropdownPanel") },
+      { btn: el("recipeTabSelectBtn"), label: el("recipeTabSelectLabel"), heart: el("recipeTabHeart"), panel: el("recipeTabDropdownPanel") },
+    ].filter((p) => p.btn && p.label && p.heart && p.panel);
     const builtInNames = ["Sourdough Bread", "Pizza", "Focaccia", "Cioccolatella"];
 
     function getCustomRecipes() {
@@ -3335,11 +3490,12 @@
     function selectRecipe(name) {
       input.value = name;
       try { localStorage.setItem("sourdoughRecipeName", name); } catch (e) {}
-      if (builtInNames.includes(name)) {
+      const data = getRecipeData();
+      if (data[name]) {
+        // A saved snapshot exists for this name (built-in recipes can be overridden by tapping Save).
+        restoreIngredientSnapshot(data[name]);
+      } else if (builtInNames.includes(name)) {
         resetIngredientsToDefaults(name);
-      } else {
-        const data = getRecipeData();
-        if (data[name]) restoreIngredientSnapshot(data[name]);
       }
       resetAllProgress();
       // Cioccolatella: pre-fill stretch-fold inclusions with chopped chocolate
@@ -3350,7 +3506,7 @@
       syncButtonFromValue();
       updateYieldNote();
       render();
-      closePanel();
+      closeAllPanels();
     }
 
     function updateYieldNote() {
@@ -3363,30 +3519,41 @@
 
     function syncButtonFromValue() {
       const val = input.value.trim();
-      label.textContent = val || "Select Recipe";
-      heart.style.display = val ? "inline" : "none";
+      pickers.forEach((p) => {
+        p.label.textContent = val || "Select Recipe";
+        p.heart.style.display = val ? "inline" : "none";
+      });
     }
 
-    function closePanel() {
-      panel.style.display = "none";
+    function closeAllPanels() {
+      pickers.forEach((p) => { p.panel.style.display = "none"; });
     }
-    function openPanel() {
-      renderPanel();
-      panel.style.display = "flex";
-      panel.style.flexDirection = "column";
+    function openPanel(picker) {
+      closeAllPanels();
+      renderPanel(picker.panel);
+      picker.panel.style.display = "flex";
+      picker.panel.style.flexDirection = "column";
     }
 
-    function renderPanel() {
+    function renderPanel(panel) {
       const customs = getCustomRecipes();
       const currentVal = input.value.trim();
+      const showSaveIcon = panel.id !== "recipeDropdownPanel";
+      const saveIconHtml = (name) => showSaveIcon
+        ? `<button type="button" data-save="${name}" title="Save current ingredients to this recipe" style="border:none; background:none; cursor:pointer; font-size:14px; padding:4px; color:var(--muted);">&#128190;</button>`
+        : "";
 
       const builtInRows = builtInNames.map((name) => `
-        <button type="button" data-pick="${name}" style="text-align:left; border:none; background:${currentVal === name ? "var(--accent-tint)" : "transparent"}; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">${name}</button>
+        <div style="display:flex; align-items:center; gap:4px;">
+          <button type="button" data-pick="${name}" style="flex:1; text-align:left; border:none; background:${currentVal === name ? "var(--accent-tint)" : "transparent"}; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">${name}</button>
+          ${saveIconHtml(name)}
+        </div>
       `).join("");
 
       const customRows = customs.map((name, i) => `
         <div style="display:flex; align-items:center; gap:4px;">
           <button type="button" data-pick="${name}" style="flex:1; text-align:left; border:none; background:${currentVal === name ? "var(--accent-tint)" : "transparent"}; border-radius:10px; padding:8px 10px; font-size:15px; color:var(--ink); cursor:pointer; font-family:inherit;">${name}</button>
+          ${saveIconHtml(name)}
           <button type="button" data-edit-idx="${i}" title="Rename" style="border:none; background:none; cursor:pointer; font-size:14px; padding:4px;">&#9998;</button>
           <button type="button" data-delete-idx="${i}" title="Delete" style="border:none; background:none; cursor:pointer; font-size:14px; padding:4px; color:var(--danger);">&#10005;</button>
         </div>
@@ -3398,13 +3565,31 @@
         ${customs.length ? `<div style="height:1px; background:var(--line); margin:4px 0;"></div>${customRows}` : ""}
         <div style="height:1px; background:var(--line); margin:4px 0;"></div>
         <div style="display:flex; gap:6px;">
-          <input type="text" id="newCustomRecipeInput" placeholder="New custom recipe..." style="flex:1; min-width:0; border:1px solid var(--line-strong); border-radius:10px; padding:8px 10px; font-size:14px; font-family:inherit; color:var(--ink);" />
-          <button type="button" id="saveCustomRecipeBtn" class="pill solid" style="padding:8px 14px; font-size:14px;">Save</button>
+          <input type="text" id="newCustomRecipeInput-${panel.id}" placeholder="New custom recipe..." style="flex:1; min-width:0; border:1px solid var(--line-strong); border-radius:10px; padding:8px 10px; font-size:14px; font-family:inherit; color:var(--ink);" />
+          <button type="button" id="saveCustomRecipeBtn-${panel.id}" class="pill solid" style="padding:8px 14px; font-size:14px;">Save</button>
         </div>
       `;
 
       panel.querySelectorAll("[data-pick]").forEach((row) => {
         row.addEventListener("click", () => selectRecipe(row.getAttribute("data-pick")));
+      });
+
+      panel.querySelectorAll("[data-save]").forEach((saveBtn) => {
+        saveBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const name = saveBtn.getAttribute("data-save");
+          const data = getRecipeData();
+          data[name] = snapshotCurrentIngredients();
+          setRecipeData(data);
+          const original = saveBtn.innerHTML;
+          const originalColor = saveBtn.style.color;
+          saveBtn.innerHTML = "&#10003;";
+          saveBtn.style.color = "var(--accent-dark)";
+          setTimeout(() => {
+            saveBtn.innerHTML = original;
+            saveBtn.style.color = originalColor;
+          }, 900);
+        });
       });
 
       panel.querySelectorAll("[data-delete-idx]").forEach((delBtn) => {
@@ -3423,7 +3608,7 @@
             try { localStorage.setItem("sourdoughRecipeName", ""); } catch (err) {}
             render();
           }
-          renderPanel();
+          renderPanel(panel);
         });
       });
 
@@ -3458,7 +3643,7 @@
                 return;
               }
             }
-            renderPanel();
+            renderPanel(panel);
           }
           saveBtn.addEventListener("click", (e2) => { e2.stopPropagation(); commitRename(); });
           renameInput.addEventListener("keydown", (e2) => {
@@ -3467,8 +3652,8 @@
         });
       });
 
-      const newInput = el("newCustomRecipeInput");
-      const saveNewBtn = el("saveCustomRecipeBtn");
+      const newInput = el("newCustomRecipeInput-" + panel.id);
+      const saveNewBtn = el("saveCustomRecipeBtn-" + panel.id);
       function commitNewCustom() {
         const name = newInput.value.trim();
         if (!name) return;
@@ -3484,7 +3669,7 @@
         try { localStorage.setItem("sourdoughRecipeName", name); } catch (e) {}
         syncButtonFromValue();
         render();
-        closePanel();
+        closeAllPanels();
       }
       saveNewBtn.addEventListener("click", commitNewCustom);
       newInput.addEventListener("keydown", (e) => {
@@ -3492,12 +3677,36 @@
       });
     }
 
-    btn.addEventListener("click", () => {
-      if (panel.style.display === "flex") closePanel();
-      else openPanel();
+    pickers.forEach((picker) => {
+      picker.btn.addEventListener("click", () => {
+        if (picker.panel.style.display === "flex") closeAllPanels();
+        else openPanel(picker);
+      });
     });
     document.addEventListener("click", (e) => {
-      if (!panel.contains(e.target) && !btn.contains(e.target)) closePanel();
+      const insideAny = pickers.some((p) => p.panel.contains(e.target) || p.btn.contains(e.target));
+      if (!insideAny) closeAllPanels();
+    });
+
+    function saveCurrentIngredientsNow(saveBtn) {
+      const name = input.value.trim();
+      if (!name) return;
+      const data = getRecipeData();
+      data[name] = snapshotCurrentIngredients();
+      setRecipeData(data);
+      const original = saveBtn.innerHTML;
+      saveBtn.innerHTML = "&#10003;";
+      saveBtn.style.color = "var(--accent-dark)";
+      saveBtn.style.borderColor = "var(--accent)";
+      setTimeout(() => {
+        saveBtn.innerHTML = original;
+        saveBtn.style.color = "";
+        saveBtn.style.borderColor = "";
+      }, 900);
+    }
+    [el("recipeTabSaveNowBtn")].forEach((saveNowBtn) => {
+      if (!saveNowBtn) return;
+      saveNowBtn.addEventListener("click", () => saveCurrentIngredientsNow(saveNowBtn));
     });
 
     try {
@@ -3981,7 +4190,7 @@ async function actionCreatePdfBakeLog() {
       closeHelpPanel();
       return;
     }
-    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn")) {
+    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn") || t.id === "openSaveBtnRecipe" || t.closest("#openSaveBtnRecipe")) {
       ev.preventDefault();
       openSavePanel();
       return;

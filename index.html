@@ -2218,6 +2218,7 @@
                 levain.showDoneBanner = false;
               }
             }
+            if (!foldsStartTime) foldsStartTime = val;
           }
           if (p.key === "bulkRise" && val && !foldsCompleted) {
             foldsCompleted = true;
@@ -2561,8 +2562,9 @@
 
   function getFlatBakePreset() {
     const name = el("recipeNameInput").value.trim();
-    if (name === "Pizza") return { minutes: 6, temp: "550", note: "6 minutes at 550\u00b0F", label: "Bake" };
-    if (name === "Focaccia") return { minutes: 30, temp: "425", note: "30 minutes at 425\u00b0F", label: "Bake" };
+    const lower = name.toLowerCase();
+    if (lower.includes("pizza")) return { minutes: 6, temp: "550", note: "6 minutes at 550\u00b0F", label: "Bake" };
+    if (lower.includes("focaccia")) return { minutes: 30, temp: "425", note: "30 minutes at 425\u00b0F", label: "Bake" };
     return null;
   }
 
@@ -2731,7 +2733,12 @@
         commitTime24Input(e, (val) => {
           foldsEndTime = val;
           sessionStarted = true;
+          if (val) {
+            const rise = phases.find((ph) => ph.key === "bulkRise");
+            if (rise && !rise.startTime) rise.startTime = val;
+          }
           refreshFoldTimerUI();
+          render();
           if (sessionStarted) snapshotSession();
         });
       });
@@ -4002,6 +4009,7 @@
         input.value = name;
         try { localStorage.setItem("sourdoughRecipeName", name); } catch (e) {}
         syncButtonFromValue();
+        if (typeof applyFlatBakePreset === "function") applyFlatBakePreset();
         render();
         closeAllPanels();
       }

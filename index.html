@@ -813,7 +813,7 @@
       <button type="button" class="top-tab-btn" id="tabBtn_testimonials_1" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
     </div>
 
-    <p id="openSaveBtn" style="text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+    <button type="button" id="openSaveBtn" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
   </div>
 
   <!-- RECIPE TAB -->
@@ -831,7 +831,7 @@
       <p class="subtitle" id="recipeTabSubtitle" style="margin:8px 0 0;">All the ingredients for your current recipe, in one place. Edit here or on the Bake tab &mdash; both stay in sync.</p>
     </div>
     <div id="recipeTabBody"></div>
-    <p id="openSaveBtnRecipe" style="text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+    <button type="button" id="openSaveBtnRecipe" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
     <div class="top-tabs" id="topTabs2">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_2" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn active" id="tabBtn_recipe_2" data-tab="recipe">&#128220; Recipes</button>
@@ -852,7 +852,7 @@
         <input type="file" id="testimonialsPhotoInput" accept="image/*" multiple style="display:none;" />
       </label>
     </div>
-    <p id="openSaveBtnTestimonials" style="text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer;">&copy; Thor 2026 · Timer v2.1</p>
+    <button type="button" id="openSaveBtnTestimonials" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
     <div class="top-tabs" id="topTabs3">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_3" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn" id="tabBtn_recipe_3" data-tab="recipe">&#128220; Recipes</button>
@@ -863,6 +863,7 @@
   <div id="testimonialLightbox" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.6); backdrop-filter:blur(2px); z-index:250; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
     <div class="card" style="width:100%; max-width:420px; box-shadow: var(--shadow-lg); align-items:center;">
       <img id="testimonialLightboxImg" src="" style="width:100%; max-height:60vh; object-fit:contain; border-radius:14px; background:var(--accent-bg);" />
+      <p id="testimonialLightboxDate" style="margin:2px 0 0; font-size:13px; color:var(--muted); text-align:center;"></p>
       <div style="display:flex; gap:10px; width:100%; margin-top:4px;">
         <button type="button" class="pill" id="testimonialEditBtn" style="flex:1; justify-content:center;">Edit</button>
         <button type="button" class="pill" id="testimonialDeleteBtn" style="flex:1; justify-content:center; color:var(--danger); border-color:var(--danger-line);">Delete</button>
@@ -3097,6 +3098,91 @@
 
   let recapPhotos = [];
 
+  // Reads the EXIF "DateTimeOriginal" (when the photo was actually taken) out of
+  // a JPEG's binary header. Returns a timestamp (ms) or null if unavailable
+  // (non-JPEG file, no EXIF data, screenshots, edited/re-saved images, etc).
+  function readExifDateTaken(file) {
+    return new Promise((resolve) => {
+      if (!file || !/jpe?g/i.test(file.type || file.name || "")) { resolve(null); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const view = new DataView(e.target.result);
+          if (view.getUint16(0, false) !== 0xffd8) { resolve(null); return; }
+          const length = view.byteLength;
+          let offset = 2;
+          while (offset < length - 4) {
+            const marker = view.getUint16(offset, false);
+            if (marker === 0xffe1) {
+              const exifTag = view.getUint32(offset + 4, false);
+              if (exifTag !== 0x45786966) { resolve(null); return; }
+              const tiffStart = offset + 10;
+              const little = view.getUint16(tiffStart, false) === 0x4949;
+              const firstIFDOffset = view.getUint32(tiffStart + 4, little);
+              resolve(parseExifIFD(view, tiffStart, tiffStart + firstIFDOffset, little));
+              return;
+            } else if ((marker & 0xff00) !== 0xff00) {
+              break;
+            } else {
+              offset += 2 + view.getUint16(offset + 2, false);
+            }
+          }
+          resolve(null);
+        } catch (err) { resolve(null); }
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsArrayBuffer(file.slice(0, 131072));
+    });
+  }
+
+  function parseExifIFD(view, tiffStart, dirStart, little) {
+    try {
+      const numEntries = view.getUint16(dirStart, little);
+      let exifSubIFD = null;
+      let fallbackDate = null;
+      for (let i = 0; i < numEntries; i++) {
+        const entryOffset = dirStart + 2 + i * 12;
+        const tag = view.getUint16(entryOffset, little);
+        if (tag === 0x8769) exifSubIFD = tiffStart + view.getUint32(entryOffset + 8, little);
+        if (tag === 0x0132) fallbackDate = readExifAscii(view, entryOffset, tiffStart, little);
+      }
+      if (exifSubIFD) {
+        const subEntries = view.getUint16(exifSubIFD, little);
+        for (let i = 0; i < subEntries; i++) {
+          const entryOffset = exifSubIFD + 2 + i * 12;
+          const tag = view.getUint16(entryOffset, little);
+          if (tag === 0x9003 || tag === 0x9004) {
+            return parseExifDateString(readExifAscii(view, entryOffset, tiffStart, little));
+          }
+        }
+      }
+      return parseExifDateString(fallbackDate);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function readExifAscii(view, entryOffset, tiffStart, little) {
+    const count = view.getUint32(entryOffset + 4, little);
+    const valueOffset = count <= 4 ? entryOffset + 8 : tiffStart + view.getUint32(entryOffset + 8, little);
+    let str = "";
+    for (let i = 0; i < count - 1; i++) str += String.fromCharCode(view.getUint8(valueOffset + i));
+    return str;
+  }
+
+  function parseExifDateString(s) {
+    if (!s) return null;
+    const m = String(s).match(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+    if (!m) return null;
+    const ts = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime();
+    return isNaN(ts) ? null : ts;
+  }
+
+  async function getPhotoDate(file) {
+    const exifTs = await readExifDateTaken(file);
+    return exifTs || file.lastModified || Date.now();
+  }
+
   function resizeImage(file, maxDim, quality) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -3158,14 +3244,35 @@
   // ---------- Testimonials (persistent photo gallery, independent of any single bake) ----------
   let testimonialPhotos = [];
   try {
-    testimonialPhotos = JSON.parse(localStorage.getItem("sourdoughTestimonials") || "[]");
+    const raw = JSON.parse(localStorage.getItem("sourdoughTestimonials") || "[]");
+    // Migrate older entries (plain strings, or one shared "src") into {thumb, full, date}.
+    testimonialPhotos = raw.map((item) => {
+      if (typeof item === "string") return { thumb: item, full: item, date: null };
+      return { thumb: item.thumb || item.src, full: item.full || item.src, date: item.date || null };
+    });
   } catch (e) {
     testimonialPhotos = [];
   }
   let testimonialLightboxIdx = -1;
 
+  function sortTestimonialsNewestFirst() {
+    testimonialPhotos.sort((a, b) => (b.date || 0) - (a.date || 0));
+  }
+  sortTestimonialsNewestFirst();
+
   function saveTestimonialPhotos() {
-    try { localStorage.setItem("sourdoughTestimonials", JSON.stringify(testimonialPhotos)); } catch (e) {}
+    try {
+      localStorage.setItem("sourdoughTestimonials", JSON.stringify(testimonialPhotos));
+      return true;
+    } catch (e) {
+      console.error("Testimonials save failed", e);
+      return false;
+    }
+  }
+
+  function formatTestimonialDate(ts) {
+    if (!ts) return "Date unknown";
+    return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
   }
 
   function renderTestimonialsGrid() {
@@ -3175,9 +3282,12 @@
       grid.innerHTML = `<p style="font-size:14px; color:var(--muted-light); margin:0;">No photos yet — tap "Add Photos" below.</p>`;
       return;
     }
-    grid.innerHTML = testimonialPhotos.map((src, i) => `
-      <button type="button" data-open-testimonial="${i}" style="padding:0; border:none; cursor:pointer; width:104px; height:104px; border-radius:14px; overflow:hidden; box-shadow: inset 0 0 0 1px rgba(224,145,199,0.25);">
-        <img src="${src}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+    grid.innerHTML = testimonialPhotos.map((item, i) => `
+      <button type="button" data-open-testimonial="${i}" style="padding:0; border:none; cursor:pointer; width:104px; display:flex; flex-direction:column; gap:4px; background:none;">
+        <span style="width:104px; height:104px; border-radius:14px; overflow:hidden; display:block; box-shadow: inset 0 0 0 1px rgba(224,145,199,0.25);">
+          <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+        </span>
+        <span style="font-size:10.5px; color:var(--muted-light); text-align:center;">${formatTestimonialDate(item.date)}</span>
       </button>
     `).join("");
     grid.querySelectorAll("[data-open-testimonial]").forEach((btn) => {
@@ -3192,7 +3302,9 @@
     testimonialLightboxIdx = idx;
     const box = el("testimonialLightbox");
     const img = el("testimonialLightboxImg");
-    if (img) img.src = testimonialPhotos[idx];
+    const dateEl = el("testimonialLightboxDate");
+    if (img) img.src = testimonialPhotos[idx].full;
+    if (dateEl) dateEl.textContent = formatTestimonialDate(testimonialPhotos[idx].date);
     if (box) box.style.display = "flex";
   }
 
@@ -3206,15 +3318,28 @@
   if (testimonialsInput) {
     testimonialsInput.addEventListener("change", async (e) => {
       const files = Array.from(e.target.files || []);
+      let failedCount = 0;
       for (const file of files) {
         try {
-          const dataUrl = await resizeImage(file, 1200, 0.75);
-          testimonialPhotos.push(dataUrl);
+          const thumb = await resizeImage(file, 260, 0.6);
+          const full = await resizeImage(file, 700, 0.55);
+          testimonialPhotos.push({ thumb, full, date: await getPhotoDate(file) });
+          sortTestimonialsNewestFirst();
+          if (!saveTestimonialPhotos()) {
+            // Ran out of storage space — undo this one so the in-memory list
+            // matches what's actually saved (and what will sync).
+            const idx = testimonialPhotos.findIndex((p) => p.full === full);
+            if (idx > -1) testimonialPhotos.splice(idx, 1);
+            failedCount++;
+            break;
+          }
         } catch (err) {}
       }
-      saveTestimonialPhotos();
       renderTestimonialsGrid();
       e.target.value = "";
+      if (failedCount > 0) {
+        alert("Ran out of storage space on this device, so the last photo(s) couldn't be saved (and won't sync). Try deleting a few older photos first, or add fewer at once.");
+      }
     });
   }
 
@@ -3225,12 +3350,18 @@
       e.target.value = "";
       if (!file || testimonialLightboxIdx < 0) return;
       try {
-        const dataUrl = await resizeImage(file, 1200, 0.75);
-        testimonialPhotos[testimonialLightboxIdx] = dataUrl;
-        saveTestimonialPhotos();
+        const thumb = await resizeImage(file, 260, 0.6);
+        const full = await resizeImage(file, 700, 0.55);
+        testimonialPhotos[testimonialLightboxIdx] = { thumb, full, date: await getPhotoDate(file) };
+        sortTestimonialsNewestFirst();
+        if (!saveTestimonialPhotos()) {
+          alert("Ran out of storage space on this device — the replacement photo couldn't be saved.");
+        }
         renderTestimonialsGrid();
         const img = el("testimonialLightboxImg");
-        if (img) img.src = dataUrl;
+        const dateEl = el("testimonialLightboxDate");
+        if (img) img.src = full;
+        if (dateEl) dateEl.textContent = formatTestimonialDate(testimonialPhotos[testimonialLightboxIdx] ? testimonialPhotos[testimonialLightboxIdx].date : null);
       } catch (err) {}
     });
   }
@@ -4106,8 +4237,13 @@
     syncPushTimer = setTimeout(() => {
       const data = getAllAppData();
       const updatedAt = Date.now();
+      // Record this as "already applied" BEFORE sending it, so that when Firebase
+      // echoes this exact write straight back to this same device, the value
+      // listener sees remote.updatedAt === lastApplied (not greater) and does
+      // nothing — instead of mistaking our own write for an incoming change
+      // from another device and reloading mid-edit.
+      try { localStorage.setItem("sourdoughSyncLastApplied", String(updatedAt)); } catch (e) {}
       syncRef.set({ updatedAt: updatedAt, localStorage: data.localStorage }).then(() => {
-        try { localStorage.setItem("sourdoughSyncLastApplied", String(updatedAt)); } catch (e) {}
         syncSetStatus("synced-now");
       }).catch((err) => {
         console.error("Sync push failed", err);
@@ -4117,6 +4253,16 @@
   }
 
   let syncReceivedFirst = false;
+
+  function reloadWhenIdle() {
+    const activeEl = document.activeElement;
+    const isTyping = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA");
+    if (isTyping) {
+      setTimeout(reloadWhenIdle, 1500);
+      return;
+    }
+    location.reload();
+  }
 
   function initFirebaseSync() {
     if (typeof firebase === "undefined") {
@@ -4144,7 +4290,7 @@
           try { localStorage.setItem("sourdoughSyncLastApplied", String(remote.updatedAt)); } catch (e) {}
           syncApplyingRemote = false;
           if (syncReceivedFirst) {
-            location.reload();
+            reloadWhenIdle();
           } else {
             syncSetStatus("online");
           }

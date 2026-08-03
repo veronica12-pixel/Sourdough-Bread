@@ -813,13 +813,18 @@
       <button type="button" class="top-tab-btn" id="tabBtn_testimonials_1" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
     </div>
 
-    <button type="button" id="openSaveBtn" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
+    <button type="button" id="openSaveBtn" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
   </div>
 
   <!-- RECIPE TAB -->
   <div class="tab-panel" id="tab-recipe">
-    <div>
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
       <h1 class="serif">Recipes</h1>
+      <button type="button" id="recipeBackBtn" title="Back" style="width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow-sm); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; flex-shrink:0;">
+        <span style="display:inline-block; transform:rotate(-90deg); font-size:14px; color:var(--ink);">&#9650;</span>
+      </button>
+    </div>
+    <div>
       <div style="position:relative; margin-top:10px; max-width:100%; display:flex; align-items:center; gap:8px;">
         <button type="button" id="recipeTabSelectBtn" style="display:inline-flex; align-items:center; gap:6px; font-size:16px; font-weight:700; color:var(--ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:10px 14px; font-family:inherit; cursor:pointer; max-width:100%; width:auto; box-sizing:border-box;">
           <span id="recipeTabHeart" style="display:none; font-size:16px; color:var(--accent); flex-shrink:0;">&#9829;</span>
@@ -831,19 +836,28 @@
       <p class="subtitle" id="recipeTabSubtitle" style="margin:8px 0 0;">All the ingredients for your current recipe, in one place. Edit here or on the Bake tab &mdash; both stay in sync.</p>
     </div>
     <div id="recipeTabBody"></div>
-    <button type="button" id="openSaveBtnRecipe" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
+    <div class="recipe-phase-card">
+      <p class="ingredients-title" style="margin:0 0 6px;">Notes</p>
+      <textarea id="recipeNotesInput" placeholder="Anything you want to remember about this recipe&hellip;" style="width:100%; box-sizing:border-box; height:120px; max-height:220px; overflow-y:auto; resize:vertical; border-radius:12px; border:1px solid var(--line-strong); padding:10px 12px; font-size:15px; font-family:inherit; color:var(--ink); line-height:1.4;"></textarea>
+    </div>
     <div class="top-tabs" id="topTabs2">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_2" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn active" id="tabBtn_recipe_2" data-tab="recipe">&#128220; Recipes</button>
       <button type="button" class="top-tab-btn" id="tabBtn_testimonials_2" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
     </div>
+    <button type="button" id="openSaveBtnRecipe" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
   </div>
 
   <!-- TESTIMONIALS TAB -->
   <div class="tab-panel" id="tab-testimonials">
-    <div>
-      <h1 class="serif">Testimonials</h1>
-      <p class="subtitle" style="margin:8px 0 0;">Photos of your bread, all in one place. Tap a photo to edit or delete it.</p>
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+      <div>
+        <h1 class="serif">Testimonials</h1>
+        <p class="subtitle" style="margin:8px 0 0;">Photos of your bread, all in one place. Tap a photo to edit or delete it.</p>
+      </div>
+      <button type="button" id="testimonialsBackBtn" title="Back" style="width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow-sm); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; flex-shrink:0;">
+        <span style="display:inline-block; transform:rotate(-90deg); font-size:14px; color:var(--ink);">&#9650;</span>
+      </button>
     </div>
     <div>
       <div id="testimonialsGrid" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
@@ -852,12 +866,12 @@
         <input type="file" id="testimonialsPhotoInput" accept="image/*" multiple style="display:none;" />
       </label>
     </div>
-    <button type="button" id="openSaveBtnTestimonials" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&#9881;&nbsp; &copy; Thor 2026 · Timer v2.1</button>
     <div class="top-tabs" id="topTabs3">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_3" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn" id="tabBtn_recipe_3" data-tab="recipe">&#128220; Recipes</button>
       <button type="button" class="top-tab-btn active" id="tabBtn_testimonials_3" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
     </div>
+    <button type="button" id="openSaveBtnTestimonials" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
   </div>
 
   <div id="testimonialLightbox" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.6); backdrop-filter:blur(2px); z-index:250; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
@@ -1979,6 +1993,10 @@
     buttons.forEach((b) => {
       b.btn.addEventListener("click", () => showTab(b.name));
     });
+    const backBtn = el("testimonialsBackBtn");
+    if (backBtn) backBtn.addEventListener("click", () => showTab("bake"));
+    const recipeBackBtn = el("recipeBackBtn");
+    if (recipeBackBtn) recipeBackBtn.addEventListener("click", () => showTab("bake"));
   })();
 
   function previousCompletionTimestamp(phase) {
@@ -2225,6 +2243,13 @@
         commitTime24Input(e, (val) => {
           p.endTime = val;
           sessionStarted = true;
+          if (val) {
+            const idx = phases.indexOf(p);
+            const next = idx > -1 ? phases[idx + 1] : null;
+            if (next && !next.startTime) {
+              next.startTime = val;
+            }
+          }
           render();
           if (sessionStarted) snapshotSession();
         });
@@ -3722,7 +3747,8 @@
       try { localStorage.setItem("sourdoughCustomRecipeData", JSON.stringify(data)); } catch (e) {}
     }
     function snapshotCurrentIngredients() {
-      const snapshot = { loafMultiplier: loafMultiplier, phases: {} };
+      const notesField = el("recipeNotesInput");
+      const snapshot = { loafMultiplier: loafMultiplier, phases: {}, notes: notesField ? notesField.value : "" };
       INGREDIENT_PHASE_KEYS.forEach((key) => {
         const p = phases.find((ph) => ph.key === key);
         if (!p) return;
@@ -3743,6 +3769,8 @@
         if (saved.inclusions) p.inclusions = saved.inclusions.map((i) => ({ ...i }));
       });
       loafMultiplier = typeof snapshot.loafMultiplier === "number" ? snapshot.loafMultiplier : 1;
+      const notesField = el("recipeNotesInput");
+      if (notesField) notesField.value = snapshot.notes || "";
     }
     function resetIngredientsToDefaults(recipeName) {
       const name = recipeName || input.value.trim();
@@ -3763,6 +3791,8 @@
         }
       });
       loafMultiplier = 1;
+      const notesField = el("recipeNotesInput");
+      if (notesField) notesField.value = "";
     }
 
     function getRecipeYieldNote(name) {
@@ -4012,6 +4042,18 @@
       if (!saveNowBtn) return;
       saveNowBtn.addEventListener("click", () => saveCurrentIngredientsNow(saveNowBtn));
     });
+
+    const recipeNotesField = el("recipeNotesInput");
+    if (recipeNotesField) {
+      recipeNotesField.addEventListener("input", () => {
+        const name = input.value.trim();
+        if (!name) return;
+        const data = getRecipeData();
+        if (!data[name]) data[name] = snapshotCurrentIngredients();
+        else data[name].notes = recipeNotesField.value;
+        setRecipeData(data);
+      });
+    }
 
     try {
       const saved = localStorage.getItem("sourdoughRecipeName");

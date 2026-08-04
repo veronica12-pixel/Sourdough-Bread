@@ -280,7 +280,7 @@
     flex: 1; min-width: 0; border-radius: 10px; border: 1px solid var(--line-strong);
     padding: 6px 10px; font-size: 16px; color: var(--ink); background: var(--card);
     font-family: inherit; resize: none; overflow-y: auto; line-height: 1.3;
-    max-height: 4.2em; box-sizing: border-box;
+    max-height: 4.2em; min-height: 2.4em; box-sizing: border-box;
   }
   .ingredient-name::placeholder { color: var(--muted-light); }
   .ingredient-qty {
@@ -2645,7 +2645,9 @@
     `).join("");
     function autoGrowName(ta) {
       ta.style.height = "auto";
-      ta.style.height = Math.min(ta.scrollHeight, 68) + "px";
+      const measured = ta.scrollHeight;
+      if (measured > 0) ta.style.height = Math.min(measured, 68) + "px";
+      else ta.style.height = ""; // hidden right now (e.g. panel not open) — fall back to CSS min-height
     }
     container.querySelectorAll(".ingredient-name").forEach((ta) => autoGrowName(ta));
     container.querySelectorAll("input, textarea").forEach((input) => {

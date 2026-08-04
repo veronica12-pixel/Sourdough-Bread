@@ -94,18 +94,14 @@
   .tab-panel.active { display: flex; }
 
   .top-tabs {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
     margin-top: 4px;
   }
-  .top-tabs::-webkit-scrollbar { display: none; }
   .top-tab-btn {
-    flex: 0 0 auto;
+    width: 100%;
+    box-sizing: border-box;
     border: 1px solid var(--line);
     background: var(--card);
     box-shadow: var(--shadow-sm);
@@ -125,6 +121,25 @@
     color: #FBF3E9;
     border-color: var(--accent);
     box-shadow: 0 3px 10px rgba(224,145,199,0.4);
+  }
+  .toggle-btn {
+    width: auto;
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .toggle-btn.active {
+    background: var(--accent);
+    color: #FBF3E9;
+    border-color: var(--accent);
   }
 
   .recipe-phase-card {
@@ -810,7 +825,8 @@
     <div class="top-tabs" id="topTabs1">
       <button type="button" class="top-tab-btn active" id="tabBtn_bake_1" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn" id="tabBtn_recipe_1" data-tab="recipe">&#128220; Recipes</button>
-      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_1" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_1" data-tab="testimonials" title="Testimonials">&#127838; Bread Pictures</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_calculator_1" data-tab="calculator" title="Levain Calculator">&#129518; Levain Calculator</button>
     </div>
 
     <button type="button" id="openSaveBtn" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:2px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
@@ -843,7 +859,8 @@
     <div class="top-tabs" id="topTabs2">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_2" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn active" id="tabBtn_recipe_2" data-tab="recipe">&#128220; Recipes</button>
-      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_2" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_2" data-tab="testimonials" title="Testimonials">&#127838; Bread Pictures</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_calculator_2" data-tab="calculator" title="Levain Calculator">&#129518; Levain Calculator</button>
     </div>
     <button type="button" id="openSaveBtnRecipe" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
   </div>
@@ -869,9 +886,125 @@
     <div class="top-tabs" id="topTabs3">
       <button type="button" class="top-tab-btn" id="tabBtn_bake_3" data-tab="bake">&#127838; Bake</button>
       <button type="button" class="top-tab-btn" id="tabBtn_recipe_3" data-tab="recipe">&#128220; Recipes</button>
-      <button type="button" class="top-tab-btn active" id="tabBtn_testimonials_3" data-tab="testimonials" title="Testimonials" style="font-size:19px; letter-spacing:-1px; line-height:1; padding-top:10px; padding-bottom:10px;">&#127838;&#127838;&#127838;</button>
+      <button type="button" class="top-tab-btn active" id="tabBtn_testimonials_3" data-tab="testimonials" title="Testimonials">&#127838; Bread Pictures</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_calculator_3" data-tab="calculator" title="Levain Calculator">&#129518; Levain Calculator</button>
     </div>
     <button type="button" id="openSaveBtnTestimonials" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
+  </div>
+
+  <!-- CALCULATOR TAB -->
+  <div class="tab-panel" id="tab-calculator">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+      <h1 class="serif">Starter &amp; Levain Calculator</h1>
+      <button type="button" id="calculatorBackBtn" title="Back" style="width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow-sm); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; flex-shrink:0;">
+        <span style="display:inline-block; transform:rotate(-90deg); font-size:14px; color:var(--ink);">&#9650;</span>
+      </button>
+    </div>
+    <p class="subtitle" style="margin:0;">Build the right amount of starter or levain for any recipe. Enter your hydration and inoculation percentages.</p>
+
+    <div class="recipe-phase-card">
+      <p class="ingredients-title" style="margin:0 0 4px;">Build Parameters</p>
+
+      <div style="display:flex; flex-direction:column; gap:16px; margin-top:8px;">
+        <div>
+          <label style="font-size:13px; font-weight:700; color:var(--ink);">Desired Output Levain Weight</label>
+          <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+            <input type="number" id="levainCalcWeight" inputmode="decimal" value="100" style="width:90px; flex-shrink:0; border-radius:10px; border:1px solid var(--line-strong); padding:8px 10px; font-size:16px; font-family:inherit; color:var(--ink);" />
+            <span style="font-size:13px; color:var(--muted); flex-shrink:0;">grams</span>
+            <input type="range" id="levainCalcWeightSlider" min="10" max="1000" step="5" value="100" style="flex:1; accent-color: var(--accent);" />
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px; font-weight:700; color:var(--ink);">Hydration Percentage</label>
+          <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+            <input type="number" id="levainCalcHydration" inputmode="decimal" value="100" style="width:90px; flex-shrink:0; border-radius:10px; border:1px solid var(--line-strong); padding:8px 10px; font-size:16px; font-family:inherit; color:var(--ink);" />
+            <span style="font-size:13px; color:var(--muted); flex-shrink:0;">%</span>
+            <input type="range" id="levainCalcHydrationSlider" min="50" max="150" step="1" value="100" style="flex:1; accent-color: var(--accent);" />
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px; font-weight:700; color:var(--ink);">Ripe Starter Inoculation Percentage</label>
+          <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+            <input type="number" id="levainCalcInoculation" inputmode="decimal" value="50" style="width:90px; flex-shrink:0; border-radius:10px; border:1px solid var(--line-strong); padding:8px 10px; font-size:16px; font-family:inherit; color:var(--ink);" />
+            <span style="font-size:13px; color:var(--muted); flex-shrink:0;">%</span>
+            <input type="range" id="levainCalcInoculationSlider" min="5" max="100" step="1" value="50" style="flex:1; accent-color: var(--accent);" />
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:13px; font-weight:700; color:var(--ink);">Common Feeding Ratios (Starter:Flour:Water)</label>
+          <div style="display:flex; align-items:center; gap:10px; margin-top:6px; flex-wrap:wrap;">
+            <select id="levainCalcRatioSelect" style="border-radius:10px; border:1px solid var(--line-strong); padding:8px 10px; font-size:15px; font-family:inherit; color:var(--ink); background:var(--card);">
+              <option value="custom">Custom</option>
+              <option value="1">1:1:1 (100%)</option>
+              <option value="2" selected>1:2:2 (50%)</option>
+              <option value="3">1:3:3 (33%)</option>
+              <option value="4">1:4:4 (25%)</option>
+              <option value="5">1:5:5 (20%)</option>
+              <option value="10">1:10:10 (10%)</option>
+            </select>
+            <span id="levainCalcRatioLabel" style="font-size:14px; font-weight:700; color:var(--ink);">1:2:2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-phase-card">
+      <p class="ingredients-title" style="margin:0 0 10px;">Calculated Ingredients</p>
+      <div style="display:flex; gap:8px;">
+        <div style="flex:1; background:var(--accent-tint); border-radius:12px; padding:12px; text-align:center;">
+          <p style="margin:0; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);">Flour</p>
+          <p id="levainCalcFlourOut" style="margin:4px 0 0; font-size:20px; font-weight:700; color:var(--ink);">0g</p>
+        </div>
+        <div style="flex:1; background:var(--accent-tint); border-radius:12px; padding:12px; text-align:center;">
+          <p style="margin:0; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);">Starter</p>
+          <p id="levainCalcStarterOut" style="margin:4px 0 0; font-size:20px; font-weight:700; color:var(--ink);">0g</p>
+        </div>
+        <div style="flex:1; background:var(--accent-tint); border-radius:12px; padding:12px; text-align:center;">
+          <p style="margin:0; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);">Water</p>
+          <p id="levainCalcWaterOut" style="margin:4px 0 0; font-size:20px; font-weight:700; color:var(--ink);">0g</p>
+        </div>
+      </div>
+
+      <div style="display:flex; height:14px; border-radius:999px; overflow:hidden; margin-top:14px; box-shadow: inset 0 0 0 1px rgba(59,47,34,0.1);">
+        <div id="levainCalcBarFlour" style="background:#E0AA6B;"></div>
+        <div id="levainCalcBarStarter" style="background:#3B2F22;"></div>
+        <div id="levainCalcBarWater" style="background:#7CA8C7;"></div>
+      </div>
+      <div style="display:flex; gap:14px; justify-content:center; margin-top:8px; font-size:12px; color:var(--muted);">
+        <span><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#E0AA6B; margin-right:4px;"></span>Flour</span>
+        <span><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#3B2F22; margin-right:4px;"></span>Starter</span>
+        <span><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#7CA8C7; margin-right:4px;"></span>Water</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ink); color:#FBF3E9; border-radius:12px; padding:12px 16px; margin-top:14px; font-weight:700;">
+        <span id="levainCalcTotalOut">Total Weight 0g</span>
+      </div>
+    </div>
+
+    <div class="recipe-phase-card" style="background:var(--accent-bg);">
+      <p class="ingredients-title" style="margin:0 0 10px;">&#9201; Est. Fermentation Time</p>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <span style="font-size:13px; color:var(--muted);">Temp:</span>
+        <input type="number" id="levainCalcTemp" value="78" style="width:70px; border-radius:10px; border:1px solid var(--line-strong); padding:6px 8px; font-size:15px; font-family:inherit; color:var(--ink);" />
+        <button type="button" id="levainCalcTempF" class="toggle-btn active" style="padding:6px 12px; font-size:13px;">&deg;F</button>
+        <button type="button" id="levainCalcTempC" class="toggle-btn" style="padding:6px 12px; font-size:13px;">&deg;C</button>
+      </div>
+      <p id="levainCalcTimeOut" class="serif" style="margin:0; font-size:19px; color:var(--ink);">5-6 hours until ripe</p>
+      <p id="levainCalcTimeDesc" style="margin:6px 0 0; font-size:13px; color:var(--muted);">A moderate build with good flavor development.</p>
+    </div>
+
+    <button type="button" class="pill solid" id="levainCalcApplyBtn" style="width:100%; box-sizing:border-box; justify-content:center;">Use these amounts for Levain</button>
+
+    <div class="top-tabs" id="topTabs4">
+      <button type="button" class="top-tab-btn" id="tabBtn_bake_4" data-tab="bake">&#127838; Bake</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_recipe_4" data-tab="recipe">&#128220; Recipes</button>
+      <button type="button" class="top-tab-btn" id="tabBtn_testimonials_4" data-tab="testimonials" title="Testimonials">&#127838; Bread Pictures</button>
+      <button type="button" class="top-tab-btn active" id="tabBtn_calculator_4" data-tab="calculator" title="Levain Calculator">&#129518; Levain Calculator</button>
+    </div>
+    <button type="button" id="openSaveBtnCalculator" style="display:block; width:100%; text-align:center; font-size:12px; color:var(--muted-light); margin:8px 0 0; cursor:pointer; background:transparent; border:1px solid var(--line); border-radius:999px; padding:8px; font-family:inherit;">&copy; Thor 2026 · Timer v2.1</button>
   </div>
 
   <div id="testimonialLightbox" style="display:none; position:fixed; inset:0; background:rgba(59,47,34,0.6); backdrop-filter:blur(2px); z-index:250; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
@@ -1971,9 +2104,10 @@
       bake: el("tab-bake"),
       recipe: el("tab-recipe"),
       testimonials: el("tab-testimonials"),
+      calculator: el("tab-calculator"),
     };
-    const names = ["bake", "recipe", "testimonials"];
-    const instances = ["1", "2", "3"];
+    const names = ["bake", "recipe", "testimonials", "calculator"];
+    const instances = ["1", "2", "3", "4"];
     const buttons = [];
     instances.forEach((suf) => {
       names.forEach((name) => {
@@ -1997,6 +2131,8 @@
     if (backBtn) backBtn.addEventListener("click", () => showTab("bake"));
     const recipeBackBtn = el("recipeBackBtn");
     if (recipeBackBtn) recipeBackBtn.addEventListener("click", () => showTab("bake"));
+    const calculatorBackBtn = el("calculatorBackBtn");
+    if (calculatorBackBtn) calculatorBackBtn.addEventListener("click", () => showTab("bake"));
   })();
 
   function previousCompletionTimestamp(phase) {
@@ -3428,6 +3564,162 @@
 
   renderTestimonialsGrid();
 
+  // ---------- Starter & Levain Calculator ----------
+  // Standard baker's-percentage build math: flour = target / (1 + hydration% + inoculation%)
+  (function initLevainCalc() {
+    const weightEl = el("levainCalcWeight");
+    const weightSlider = el("levainCalcWeightSlider");
+    const hydrationEl = el("levainCalcHydration");
+    const hydrationSlider = el("levainCalcHydrationSlider");
+    const inoculationEl = el("levainCalcInoculation");
+    const inoculationSlider = el("levainCalcInoculationSlider");
+    const ratioSelect = el("levainCalcRatioSelect");
+    const ratioLabel = el("levainCalcRatioLabel");
+    const flourOut = el("levainCalcFlourOut");
+    const starterOut = el("levainCalcStarterOut");
+    const waterOut = el("levainCalcWaterOut");
+    const barFlour = el("levainCalcBarFlour");
+    const barStarter = el("levainCalcBarStarter");
+    const barWater = el("levainCalcBarWater");
+    const totalOut = el("levainCalcTotalOut");
+    const tempEl = el("levainCalcTemp");
+    const tempFBtn = el("levainCalcTempF");
+    const tempCBtn = el("levainCalcTempC");
+    const timeOut = el("levainCalcTimeOut");
+    const timeDesc = el("levainCalcTimeDesc");
+    const applyBtn = el("levainCalcApplyBtn");
+    if (!weightEl) return;
+
+    let tempUnit = "F";
+
+    function estimateLevainTime(inocPct, tempF) {
+      // Baseline ranges (roughly matching common baker's-percentage guidance at ~78\u00b0F),
+      // nudged for temperature using a common "~doubles every 17\u00b0F" fermentation heuristic.
+      let baseLowHrs, baseHighHrs, desc;
+      if (inocPct >= 80) { baseLowHrs = 3; baseHighHrs = 4; desc = "A fast build \u2014 vigorous and quick to ripen."; }
+      else if (inocPct >= 35) { baseLowHrs = 5; baseHighHrs = 6; desc = "A moderate build with good flavor development."; }
+      else if (inocPct >= 15) { baseLowHrs = 12; baseHighHrs = 14; desc = "A slow build \u2014 great for an overnight rise."; }
+      else { baseLowHrs = 16; baseHighHrs = 20; desc = "A very slow build \u2014 mild flavor, long fermentation."; }
+      const mult = Math.pow(2, (78 - tempF) / 17);
+      const low = Math.max(1, Math.round(baseLowHrs * mult));
+      const high = Math.max(low + 1, Math.round(baseHighHrs * mult));
+      return { text: low + "-" + high + " hours until ripe", desc };
+    }
+
+    function syncPair(numberEl, sliderEl) {
+      if (numberEl && sliderEl) sliderEl.value = numberEl.value;
+    }
+
+    function calc() {
+      const weight = parseFloat(weightEl.value) || 0;
+      const hydration = parseFloat(hydrationEl.value) || 0;
+      const inoculation = parseFloat(inoculationEl.value) || 0;
+      let tempF = parseFloat(tempEl.value);
+      if (isNaN(tempF)) tempF = 78;
+      if (tempUnit === "C") tempF = tempF * 9 / 5 + 32;
+
+      syncPair(weightEl, weightSlider);
+      syncPair(hydrationEl, hydrationSlider);
+      syncPair(inoculationEl, inoculationSlider);
+
+      if (!weight || weight <= 0 || hydration < 0 || inoculation <= 0) {
+        [flourOut, starterOut, waterOut, totalOut].forEach((n) => { if (n) n.textContent = "0g"; });
+        if (barFlour) barFlour.style.flex = "1";
+        if (barStarter) barStarter.style.flex = "0";
+        if (barWater) barWater.style.flex = "0";
+        if (timeOut) timeOut.textContent = "Enter values above";
+        if (timeDesc) timeDesc.textContent = "";
+        if (applyBtn) { delete applyBtn.dataset.starter; delete applyBtn.dataset.water; delete applyBtn.dataset.flour; }
+        return;
+      }
+
+      const h = hydration / 100;
+      const i = inoculation / 100;
+      const flour = weight / (1 + h + i);
+      const water = flour * h;
+      const starter = flour * i;
+      const r = (n) => Math.round(n);
+      const rFlour = r(flour), rStarter = r(starter), rWater = r(water);
+      const total = rFlour + rStarter + rWater;
+
+      if (flourOut) flourOut.textContent = rFlour + "g";
+      if (starterOut) starterOut.textContent = rStarter + "g";
+      if (waterOut) waterOut.textContent = rWater + "g";
+      if (totalOut) totalOut.textContent = "Total Weight " + total + "g";
+      if (barFlour) barFlour.style.flex = String(Math.max(rFlour, 0.001));
+      if (barStarter) barStarter.style.flex = String(Math.max(rStarter, 0.001));
+      if (barWater) barWater.style.flex = String(Math.max(rWater, 0.001));
+
+      const est = estimateLevainTime(inoculation, tempF);
+      if (timeOut) timeOut.textContent = est.text;
+      if (timeDesc) timeDesc.textContent = est.desc;
+
+      if (applyBtn) {
+        applyBtn.dataset.starter = String(rStarter);
+        applyBtn.dataset.water = String(rWater);
+        applyBtn.dataset.flour = String(rFlour);
+      }
+    }
+
+    [[weightEl, weightSlider], [hydrationEl, hydrationSlider], [inoculationEl, inoculationSlider]].forEach(([numberEl, sliderEl]) => {
+      if (numberEl) numberEl.addEventListener("input", calc);
+      if (sliderEl) sliderEl.addEventListener("input", () => { numberEl.value = sliderEl.value; calc(); });
+    });
+    if (tempEl) tempEl.addEventListener("input", calc);
+
+    if (ratioSelect) {
+      ratioSelect.addEventListener("change", () => {
+        const val = ratioSelect.value;
+        if (val === "custom") { if (ratioLabel) ratioLabel.textContent = "Custom"; return; }
+        const ratio = parseFloat(val);
+        hydrationEl.value = "100";
+        inoculationEl.value = String(Math.round(100 / ratio));
+        if (ratioLabel) ratioLabel.textContent = "1:" + ratio + ":" + ratio;
+        calc();
+      });
+    }
+
+    if (tempFBtn && tempCBtn) {
+      tempFBtn.addEventListener("click", () => {
+        if (tempUnit === "F") return;
+        tempEl.value = Math.round(parseFloat(tempEl.value) * 9 / 5 + 32);
+        tempUnit = "F";
+        tempFBtn.classList.add("active");
+        tempCBtn.classList.remove("active");
+        calc();
+      });
+      tempCBtn.addEventListener("click", () => {
+        if (tempUnit === "C") return;
+        tempEl.value = Math.round((parseFloat(tempEl.value) - 32) * 5 / 9);
+        tempUnit = "C";
+        tempCBtn.classList.add("active");
+        tempFBtn.classList.remove("active");
+        calc();
+      });
+    }
+
+    if (applyBtn) {
+      applyBtn.addEventListener("click", () => {
+        if (!applyBtn.dataset.starter) return;
+        const levainPhase = phases.find((p) => p.key === "levain");
+        if (!levainPhase || !levainPhase.ingredients) return;
+        levainPhase.ingredients.forEach((ing) => {
+          if (ing.name === "Sourdough Starter") ing.qty = applyBtn.dataset.starter + "g";
+          if (ing.name === "Water for Levain") ing.qty = applyBtn.dataset.water + "g";
+          if (ing.name === "Flour for Levain") ing.qty = applyBtn.dataset.flour + "g";
+        });
+        sessionStarted = true;
+        snapshotSession();
+        render();
+        const original = applyBtn.textContent;
+        applyBtn.textContent = "Added to Levain \u2713";
+        setTimeout(() => { applyBtn.textContent = original; }, 1200);
+      });
+    }
+
+    calc();
+  })();
+
   function getBakeLog() {
     try {
       return JSON.parse(localStorage.getItem("sourdoughBakeLog") || "[]");
@@ -4695,7 +4987,7 @@ async function actionCreatePdfBakeLog() {
       closeHelpPanel();
       return;
     }
-    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn") || t.id === "openSaveBtnRecipe" || t.closest("#openSaveBtnRecipe") || t.id === "openSaveBtnTestimonials" || t.closest("#openSaveBtnTestimonials")) {
+    if (t.id === "openSaveBtn" || t.closest("#openSaveBtn") || t.id === "openSaveBtnRecipe" || t.closest("#openSaveBtnRecipe") || t.id === "openSaveBtnTestimonials" || t.closest("#openSaveBtnTestimonials") || t.id === "openSaveBtnCalculator" || t.closest("#openSaveBtnCalculator")) {
       ev.preventDefault();
       openSavePanel();
       return;
